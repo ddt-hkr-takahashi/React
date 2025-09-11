@@ -8,5 +8,6 @@ import com.example.demo.dto.SpeedUsedCarDto;
 
 @Mapper
 public interface SpeedUsedCarMapper {
-    List<SpeedUsedCarDto> getAnalyzedSalesData();
+	// ListではなくCursorを返すように変更
+	List<SpeedUsedCarDto> getAnalyzedSalesData();
 }

@@ -1,16 +1,5 @@
 import React from "react";
 
-/**
- * 検索結果をリスト表示するコンポーネント
- * @param {{
- * resultList: Array,
- * resultCountMessage: string,
- * selectedItems: Set,
- * onItemSelect: Function,
- * onAllItemsSelect: Function,
- * isAllSelected: boolean
- * }} props
- */
 const OwnerResultListSection = ({
   resultList,
   resultCountMessage,
@@ -21,16 +10,13 @@ const OwnerResultListSection = ({
 }) => {
   return (
     <div className="result-container">
-      {/* 検索結果件数メッセージ */}
       <p className="message success">{resultCountMessage}</p>
 
-      {/* 結果リストが空でない場合のみテーブルを表示 */}
       {resultList && resultList.length > 0 ? (
         <div className="table-container">
           <table className="data-table">
             <thead>
               <tr>
-                {/* 全選択チェックボックス */}
                 <th className="column-checkbox">
                   <label>
                     <input
@@ -47,7 +33,6 @@ const OwnerResultListSection = ({
               </tr>
             </thead>
             <tbody>
-              {/* 各行のデータをマッピングして表示 */}
               {resultList.map((item) => (
                 <tr key={item.ownerCode}>
                   <td className="column-checkbox">
@@ -69,7 +54,6 @@ const OwnerResultListSection = ({
           </table>
         </div>
       ) : (
-        // 結果が0件の場合はメッセージを表示
         <div className="no-results-message">
           <p>検索条件に一致するデータがありません。</p>
         </div>

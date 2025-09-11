@@ -1,16 +1,6 @@
-import React from 'react';
+import React from "react";
 
-/**
- * 元所有者情報の検索フォームコンポーネント
- * @param {{
- * formData: object,
- * handleChange: Function,
- * handleSearch: Function,
- * onAddClick: Function
- * }} props
- */
 const OwnerSearchSection = ({ formData, handleChange, handleSearch, onAddClick }) => {
-    // 性別の静的データを定義
     const genders = [
         { genderCode: '男', genderName: '男' },
         { genderCode: '女', genderName: '女' },
@@ -19,7 +9,6 @@ const OwnerSearchSection = ({ formData, handleChange, handleSearch, onAddClick }
     return (
         <div className="search-form-container">
             <div className="form-grid">
-                {/* オーナー名検索入力欄 */}
                 <div className="form-group">
                     <label htmlFor="ownerName">元所有者名</label>
                     <input
@@ -31,7 +20,6 @@ const OwnerSearchSection = ({ formData, handleChange, handleSearch, onAddClick }
                         placeholder="元所有者名を入力"
                     />
                 </div>
-                {/* 性別選択ドロップダウン */}
                 <div className="form-group">
                     <label htmlFor="gender">性別</label>
                     <select
@@ -48,7 +36,6 @@ const OwnerSearchSection = ({ formData, handleChange, handleSearch, onAddClick }
                         ))}
                     </select>
                 </div>
-                {/* 年齢下限入力欄 */}
                 <div className="form-group">
                     <label htmlFor="ageMin">年齢（下限）</label>
                     <input
@@ -60,7 +47,6 @@ const OwnerSearchSection = ({ formData, handleChange, handleSearch, onAddClick }
                         min="0"
                     />
                 </div>
-                {/* 年齢上限入力欄 */}
                 <div className="form-group">
                     <label htmlFor="ageMax">年齢（上限）</label>
                     <input
@@ -74,7 +60,6 @@ const OwnerSearchSection = ({ formData, handleChange, handleSearch, onAddClick }
                 </div>
             </div>
 
-            {/* 検索・追加ボタン群 */}
             <div className="search-button-group button-spacing">
                 <button
                     type="submit"

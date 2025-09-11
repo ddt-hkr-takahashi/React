@@ -10,7 +10,6 @@ import {
   Legend,
 } from 'chart.js';
 
-// Chart.jsのコンポーネントを登録
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -20,28 +19,15 @@ ChartJS.register(
   Legend
 );
 
-/**
- * 販売履歴を棒グラフで表示するコンポーネント
- * @param {{
- * chartResultList: Array,
- * chartLoading: boolean,
- * chartSearchError: string|null,
- * chartTitle: string
- * }} props
- */
 const ChartSection = ({ chartResultList, chartLoading, chartSearchError, chartTitle }) => {
-  // グラフデータ
   const [chartData, setChartData] = useState(null);
 
-  // 検索結果リストが更新されたらグラフデータを再生成
   useEffect(() => {
     if (chartResultList && chartResultList.length > 0) {
-      // データのラベルと値を抽出
       const labels = chartResultList.map(item => item.storeName);
       const salesData = chartResultList.map(item => item.salesAmount);
       const carsData = chartResultList.map(item => item.numberOfCars);
 
-      // Chart.jsのデータ形式に変換
       setChartData({
         labels: labels,
         datasets: [
@@ -64,12 +50,10 @@ const ChartSection = ({ chartResultList, chartLoading, chartSearchError, chartTi
         ],
       });
     } else {
-      // 結果がない場合はデータをリセット
       setChartData(null);
     }
   }, [chartResultList]);
 
-  // ローディング、エラー、データなしの各状態を処理
   if (chartSearchError) {
     return <div className="message error">{chartSearchError}</div>;
   }
@@ -82,7 +66,6 @@ const ChartSection = ({ chartResultList, chartLoading, chartSearchError, chartTi
     return <div className="no-results-message">グラフ表示可能なデータがありません。</div>;
   }
 
-  // グラフのオプション設定
   const options = {
     responsive: true,
     plugins: {

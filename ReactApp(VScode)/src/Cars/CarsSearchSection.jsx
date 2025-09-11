@@ -1,24 +1,9 @@
-// SearchSection.jsx
 import React from 'react'; 
 
-/**
- * 検索フォームのコンポーネント
- * @param {{
- * formData: object,
- * prefList: Array,
- * branchList: Array,
- * makerList: Array,
- * typeList: Array,
- * handleChange: Function,
- * handleSearch: Function,
- * onAddClick: Function
- * }} props
- */
 const SearchSection = ({ formData, prefList, branchList, makerList, typeList, handleChange, handleSearch, onAddClick }) => { 
     return ( 
         <div className="search-form-container"> 
             <div className="form-grid"> 
-                {/* 都道府県 */} 
                 <div className="form-group"> 
                     <label htmlFor="prefCode">都道府県</label> 
                     <select 
@@ -36,7 +21,6 @@ const SearchSection = ({ formData, prefList, branchList, makerList, typeList, ha
                     </select> 
                 </div> 
 
-                {/* 支店 */} 
                 <div className="form-group"> 
                     <label htmlFor="branchCode">支店</label> 
                     <select 
@@ -54,7 +38,6 @@ const SearchSection = ({ formData, prefList, branchList, makerList, typeList, ha
                     </select> 
                 </div> 
 
-                {/* メーカー */} 
                 <div className="form-group"> 
                     <label htmlFor="makerCode">メーカー</label> 
                     <select 
@@ -72,7 +55,6 @@ const SearchSection = ({ formData, prefList, branchList, makerList, typeList, ha
                     </select> 
                 </div> 
 
-                {/* タイプ */} 
                 <div className="form-group"> 
                     <label htmlFor="typeCode">タイプ</label> 
                     <select 
@@ -90,7 +72,6 @@ const SearchSection = ({ formData, prefList, branchList, makerList, typeList, ha
                     </select> 
                 </div> 
 
-                {/* モデル名 */} 
                 <div className="form-group"> 
                     <label htmlFor="modelName">モデル名</label> 
                     <input 
@@ -103,7 +84,6 @@ const SearchSection = ({ formData, prefList, branchList, makerList, typeList, ha
                     /> 
                 </div> 
                 
-                {/* 元所有者なしチェックボックス */} 
                 <div className="form-group checkbox-group">
                     <input 
                         type="checkbox" 
@@ -116,7 +96,6 @@ const SearchSection = ({ formData, prefList, branchList, makerList, typeList, ha
                 </div>
             </div> 
 
-            {/* 検索・新規追加ボタン */} 
             <div className="search-button-group button-spacing">
                 <button 
                     type="submit" 

@@ -1,28 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 
-// React-Modalのアクセシビリティ設定
 if (typeof document !== "undefined") {
   Modal.setAppElement("#root");
 }
 
-/**
- * 元所有者情報の追加・編集用モーダルコンポーネント
- * @param {{
- * isOpen: boolean,
- * onClose: Function,
- * onSave: Function,
- * initialData: object|null
- * }} props
- */
 const OwnerAddEditModal = ({ isOpen, onClose, onSave, initialData }) => {
-  // 編集モードか新規追加モードかを判定
   const isEditMode = !!initialData?.ownerCode;
 
-  // 性別の静的データを定義
   const genders = ["男", "女"];
 
-  // フォームデータの状態を管理
   const [formData, setFormData] = useState({
     ownerCode: null,
     ownerName: "",
@@ -30,11 +17,9 @@ const OwnerAddEditModal = ({ isOpen, onClose, onSave, initialData }) => {
     age: "",
   });
 
-  // モーダルが開かれたとき、または初期データが変更されたときにフォームデータをリセットまたは設定
   useEffect(() => {
     if (isOpen) {
       if (isEditMode) {
-        // 編集モードの場合、初期データをセット
         setFormData({
           ownerCode: initialData.ownerCode,
           ownerName: initialData.ownerName,
@@ -42,7 +27,6 @@ const OwnerAddEditModal = ({ isOpen, onClose, onSave, initialData }) => {
           age: initialData.age,
         });
       } else {
-        // 新規追加モードの場合、フォームをリセット
         setFormData({
           ownerCode: null,
           ownerName: "",
@@ -53,19 +37,11 @@ const OwnerAddEditModal = ({ isOpen, onClose, onSave, initialData }) => {
     }
   }, [isOpen, isEditMode, initialData]);
 
-  /**
-   * フォーム入力の変更を処理する
-   * @param {Event} e - 変更イベント
-   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  /**
-   * フォーム送信を処理する
-   * @param {Event} e - 送信イベント
-   */
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave(formData);
@@ -89,7 +65,6 @@ const OwnerAddEditModal = ({ isOpen, onClose, onSave, initialData }) => {
       </div>
       <div className="modal-body">
         <form onSubmit={handleSubmit}>
-          {/* 名前入力欄 */}
           <div className="form-group">
             <label htmlFor="ownerName">名前:</label>
             <input
@@ -102,7 +77,6 @@ const OwnerAddEditModal = ({ isOpen, onClose, onSave, initialData }) => {
             />
           </div>
 
-          {/* 性別選択ドロップダウン */}
           <div className="form-group">
             <label htmlFor="gender">性別:</label>
             <select
@@ -121,7 +95,6 @@ const OwnerAddEditModal = ({ isOpen, onClose, onSave, initialData }) => {
             </select>
           </div>
 
-          {/* 年齢入力欄 */}
           <div className="form-group">
             <label htmlFor="age">年齢:</label>
             <input
@@ -135,7 +108,6 @@ const OwnerAddEditModal = ({ isOpen, onClose, onSave, initialData }) => {
             />
           </div>
 
-          {/* 送信・キャンセルボタン */}
           <div className="button-group button-spacing">
             <button type="submit" className="btn">
               {isEditMode ? "更新" : "追加"}

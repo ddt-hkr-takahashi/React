@@ -1,11 +1,6 @@
-// MainMenu.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-/**
- * アプリケーションのメインメニューコンポーネント
- * 各管理画面へのリンクを表示する
- */
 const MainMenu = () => {
   return (
     <div className="main-menu-container">

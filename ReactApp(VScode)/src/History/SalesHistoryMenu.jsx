@@ -1,4 +1,3 @@
-// src/History/SalesHistoryMenu.jsx
 import React, { useMemo, useState } from "react";
 import useDataFetching from "/src/.jsx/useDataFetching.jsx";
 import useDropdownData from "/src/.jsx/useDropdownData.jsx";
@@ -10,19 +9,12 @@ import usePagination from "/src/.jsx/usePagination.jsx";
 import ChartSection from "./HistoryChartSection.jsx";
 import axios from "axios";
 
-/**
- * 販売履歴管理画面のメインコンポーネント
- * 検索、リスト表示、グラフ表示、CSVインポート/エクスポートを管理する
- */
 const SalesHistoryMenu = () => {
-  // 表示モードの状態 ('list'または'graph')
   const [viewMode, setViewMode] = useState("list");
-  // グラフデータとローディング状態
   const [chartResultList, setChartResultList] = useState([]);
   const [chartLoading, setChartLoading] = useState(false);
   const [chartSearchError, setChartSearchError] = useState(null);
 
-  // 年のリストを生成
   const yearList = useMemo(() => {
     const currentYear = new Date().getFullYear();
     const years = [];
@@ -32,7 +24,6 @@ const SalesHistoryMenu = () => {
     return years;
   }, []);
 
-  // 月のリストを生成
   const monthList = useMemo(() => {
     const months = [];
     for (let i = 1; i <= 12; i++) {
@@ -41,7 +32,6 @@ const SalesHistoryMenu = () => {
     return months;
   }, []);
 
-  // フォームの初期状態
   const initialFormState = useMemo(
     () => ({
       storeCode: "",
@@ -51,10 +41,8 @@ const SalesHistoryMenu = () => {
     []
   );
 
-  // CRUD操作とメッセージ用のカスタムフック
   const { execute: executeCrud, crudError, successMessage, setSuccessMessage } = useCrud();
 
-  // 検索とデータ取得用のカスタムフック
   const {
     formData,
     resultList,
@@ -68,21 +56,15 @@ const SalesHistoryMenu = () => {
     totalCount,
   } = useDataFetching(
     initialFormState,
-    "http://localhost:8080/api/sales-history/search",
+    "http://localhost:8080/api/sales-history/search-result",
     setSuccessMessage
   );
 
-  // ページネーション用のカスタムフック
   const { currentPage, totalPages, handlePageChange, resetPagination } =
     usePagination(totalCount, 100);
 
-  // ドロップダウンデータ取得用のカスタムフック
   const { data: storeList } = useDropdownData("http://localhost:8080/api/stores");
 
-  /**
-   * 検索処理を実行する
-   * @param {string} mode - 'list'または'graph'
-   */
   const handleSearch = async (mode) => {
     setSuccessMessage(null);
     setChartSearchError(null);
@@ -93,7 +75,7 @@ const SalesHistoryMenu = () => {
     } else if (mode === "graph") {
       setChartLoading(true);
       try {
-        const response = await axios.get("http://localhost:8080/api/sales-history/chart", { params: formData });
+        const response = await axios.get("http://localhost:8080/api/sales-history/search-gragh", { params: formData });
         setChartResultList(response.data.resultList || []);
       } catch (error) {
         setChartSearchError("グラフデータの取得に失敗しました。");
@@ -104,23 +86,16 @@ const SalesHistoryMenu = () => {
     }
   };
 
-  /**
-   * CSVファイルをインポートする
-   * @param {File} file - インポートするファイル
-   */
   const handleImportCsv = async (file) => {
     const data = new FormData();
     data.append("file", file);
-    await executeCrud('post', 'sales-history/import', data);
+    await executeCrud('post', 'sales-history/import-csv', data);
     handleSearch(viewMode);
   };
 
-  /**
-   * CSVファイルをエクスポートする
-   */
   const handleExportCsv = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/sales-history/export", {
+      const response = await axios.get("http://localhost:8080/api/sales-history/export-csv", {
         params: formData,
         responseType: "blob",
       });
@@ -155,18 +130,14 @@ const SalesHistoryMenu = () => {
           isSearched={isSearched}
         />
         <section className="result-area">
-          {/* ローディングメッセージ */}
           {(loading || chartLoading) && (
             <div className="loading-message">検索中...</div>
           )}
-          {/* エラーメッセージ */}
           {crudError && <div className="message error">{crudError}</div>}
-          {/* 成功メッセージ */}
           {successMessage && (
             <div className="message success">{successMessage}</div>
           )}
 
-          {/* 一覧表示 */}
           {isSearched && !searchError && viewMode === "list" && (
             <>
               <ResultListSection
@@ -180,7 +151,6 @@ const SalesHistoryMenu = () => {
               />
             </>
           )}
-          {/* グラフ表示 */}
           {isSearched &&
             !chartSearchError &&
             viewMode === "graph" &&
@@ -194,7 +164,6 @@ const SalesHistoryMenu = () => {
                 chartTitle={"販売履歴グラフ"}
               />
             )}
-          {/* 検索エラーメッセージ */}
           {isSearched && searchError && viewMode === "list" && (
             <div className="message error">{searchError}</div>
           )}

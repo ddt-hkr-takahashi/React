@@ -1,19 +1,10 @@
 import React from 'react';
 
-/**
- * 検索結果をリスト表示するコンポーネント
- * @param {{
- * resultList: Array,
- * resultCountMessage: string
- * }} props
- */
 const ResultListSection = ({ resultList, resultCountMessage }) => {
   return (
     <div className="result-container">
-      {/* 検索結果件数メッセージ */}
       <p className="message success">{resultCountMessage}</p>
       
-      {/* resultListが空でない場合のみテーブルをレンダリング */}
       {resultList && resultList.length > 0 ? (
         <div className="table-container">
           <table className="data-table">
@@ -30,7 +21,6 @@ const ResultListSection = ({ resultList, resultCountMessage }) => {
               </tr>
             </thead>
             <tbody>
-              {/* 各行のデータをマッピングして表示 */}
               {resultList.map((item, index) => (
                 <tr key={index}>
                   <td>{item.prefName}</td>
@@ -47,7 +37,6 @@ const ResultListSection = ({ resultList, resultCountMessage }) => {
           </table>
         </div>
       ) : (
-        // 結果が0件の場合はメッセージを表示
         <div className="no-results-message">
           <p>検索条件に一致するデータがありません。</p>
         </div>

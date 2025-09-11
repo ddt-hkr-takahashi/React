@@ -1,20 +1,6 @@
 import React, { useRef } from "react";
+import FastDownloadButton from "/src/.jsx/FastDownloadButton.jsx";
 
-/**
- * 販売履歴の検索フォームコンポーネント
- * @param {{
- * formData: object,
- * storeList: Array,
- * yearList: Array,
- * monthList: Array,
- * handleChange: Function,
- * handleSearch: Function,
- * onImportCsv: Function,
- * onExportCsv: Function,
- * onToggleView: Function,
- * isSearched: boolean
- * }} props
- */
 const SearchSection = ({
   formData,
   storeList,
@@ -27,23 +13,14 @@ const SearchSection = ({
   onToggleView,
   isSearched,
 }) => {
-  // ファイル入力要素への参照
   const fileInputRef = useRef(null);
 
-  /**
-   * ファイルが選択されたときの処理
-   * @param {Event} e - 変更イベント
-   */
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
       onImportCsv(e.target.files[0]);
     }
   };
 
-  /**
-   * インポートボタンクリック時の処理
-   * 隠されたファイル入力要素をクリック
-   */
   const handleImportClick = () => {
     fileInputRef.current.click();
   };
@@ -51,7 +28,6 @@ const SearchSection = ({
   return (
     <div className="search-form-container">
       <div className="form-grid">
-        {/* 店舗コードの選択 */}
         <div className="form-group">
           <label htmlFor="storeCode">店舗</label>
           <select
@@ -70,7 +46,6 @@ const SearchSection = ({
           </select>
         </div>
 
-        {/* 年の選択 */}
         <div className="form-group">
           <label htmlFor="yearNumber">年</label>
           <select
@@ -89,7 +64,6 @@ const SearchSection = ({
           </select>
         </div>
 
-        {/* 月の選択 */}
         <div className="form-group">
           <label htmlFor="monthNumber">月</label>
           <select
@@ -109,9 +83,7 @@ const SearchSection = ({
         </div>
       </div>
 
-      {/* 検索・CSV操作ボタン */}
       <div className="search-button-group button-spacing">
-        {/* 一覧表示ボタンとグラフ表示ボタンに検索機能を持たせる */}
         <button
           type="button"
           className="btn btn-primary"
@@ -135,6 +107,10 @@ const SearchSection = ({
         <button type="button" className="btn" onClick={onExportCsv}>
           CSV出力
         </button>
+        <FastDownloadButton
+          apiUrl="http://localhost:8080/api/sales-history/download-report"
+          fileName="used_car_report_fast.csv"
+        />
         {!isSearched && (
           <button type="button" className="btn" onClick={handleImportClick}>
             CSVインポート

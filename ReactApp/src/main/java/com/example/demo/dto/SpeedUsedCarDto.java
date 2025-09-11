@@ -8,10 +8,10 @@ public class SpeedUsedCarDto {
 	private String storeName;
 	private String branchName;
 	private String PD;
-	private int salesAmount;
-	private int listPrice;
+	private Integer salesAmount;
+	private Integer listPrice;
 	private String makerName;
 	private String typeName;
 	private String modelName;
-	private int saleStatus;
+	private Integer saleStatus;
 }

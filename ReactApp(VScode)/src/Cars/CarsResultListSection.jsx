@@ -1,16 +1,5 @@
 import React from 'react';
 
-/**
- * 検索結果リストのコンポーネント
- * @param {{
- * resultList: Array,
- * resultCountMessage: string,
- * selectedItems: Set,
- * onItemSelect: Function,
- * onAllItemsSelect: Function,
- * isAllSelected: boolean
- * }} props
- */
 const ResultListSection = ({
   resultList,
   resultCountMessage,
@@ -21,16 +10,13 @@ const ResultListSection = ({
 }) => {
   return (
     <div className="result-container">
-      {/* 検索結果件数メッセージ */}
       <p className="message success">{resultCountMessage}</p>
       
-      {/* resultListが空でない場合のみテーブルをレンダリング */}
       {resultList && resultList.length > 0 ? (
         <div className="table-container">
           <table className="data-table">
             <thead>
               <tr>
-                {/* 全選択用チェックボックス */}
                 <th className="column-checkbox">
                   <label>
                   <input
@@ -40,7 +26,6 @@ const ResultListSection = ({
                   />
                   </label>
                 </th>
-                {/* テーブルヘッダー */}
                 <th className="column-prefecture">都道府県</th>
                 <th className="column-branch">支店</th>
                 <th className="column-maker">メーカー</th>
@@ -50,10 +35,8 @@ const ResultListSection = ({
               </tr>
             </thead>
             <tbody>
-              {/* 各行のデータをマッピングして表示 */}
               {resultList.map((item) => (
                 <tr key={item.carId}>
-                  {/* 個別選択用チェックボックス */}
                   <td className="column-checkbox">
                     <label>
                     <input
@@ -75,7 +58,6 @@ const ResultListSection = ({
           </table>
         </div>
       ) : (
-        // 結果が0件の場合はメッセージを表示
         <div className="no-results-message">
           <p>検索条件に一致するデータがありません。</p>
         </div>
