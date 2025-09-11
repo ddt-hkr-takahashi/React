@@ -1,0 +1,45 @@
+<?xml version="1.<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.UsedCarMapper">
+	<cache />
+
+	<select id="getAnalyzedSalesData"
+		resultType="com.example.model.UsedCarSaleResult">
+		SELECT
+		b.pref_code AS prefName,
+		s.store_name AS storeName,
+		b.branch_name AS branchName,
+		DATE_FORMAT(u.parchase_date,
+		'%Y年%m月%d日')
+		AS PD,
+		u.sales_amount AS salesAmount,
+		m.list_price AS listPrice,
+		m.maker_name AS makerName,
+		m.type_name AS typeName,
+		m.model_name AS
+		modelName,
+		CASE
+		WHEN u.sales_amount >= m.list_price THEN 1 -- 高く売れた
+		WHEN
+		b.store_code = '01' AND u.sales_amount < m.list_price AND
+		u.sales_amount >= m.list_price * 0.8 THEN 0 -- 普通の価格
+		WHEN b.store_code
+		!= '01' AND u.sales_amount < m.list_price AND
+		u.sales_amount >=
+		m.list_price * 0.7 THEN 0 -- 普通の価格
+		ELSE -1 -- 安く売れた
+		END AS sale_status
+		FROM
+		used_cars u
+		JOIN
+		models_list m ON u.model_code = m.model_code
+		JOIN
+		branches_list b ON u.branch_code = b.branch_code
+		JOIN
+		stores_list s ON
+		b.store_code = s.store_code
+	</select>
+</mapper>
+0" encoding="UTF-8"?>

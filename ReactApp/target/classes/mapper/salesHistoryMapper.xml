@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.SalesHistoryMapper">
+
+	<select id="countSalesHistory" resultType="int">
+		SELECT COUNT(*) 
+		FROM used_cars uc
+		INNER JOIN branches_list bl ON
+		uc.branch_code = bl.branch_code
+		INNER JOIN stores_list st ON
+		bl.store_code = st.store_code
+		INNER JOIN models_list mol ON
+		mol.model_code = uc.model_code
+		INNER JOIN makers_list ml ON
+		ml.maker_code = mol.maker_code
+		INNER JOIN types_list tl ON tl.type_code
+		= mol.type_code
+		WHERE uc.parchase_date IS NOT NULL
+		<if test="storeCode != null and storeCode != ''">
+			AND st.store_code = #{storeCode}
+		</if>
+		<if test="yearNumber != null and yearNumber != ''">
+			AND YEAR(uc.parchase_date) = #{yearNumber}
+		</if>
+		<if test="monthNumber != null and monthNumber != ''">
+			AND MONTH(uc.parchase_date) = #{monthNumber}
+		</if>
+	</select>
+
+	<select id="searchSalesHistory" resultType="Map">
+		SELECT
+		uc.car_id AS carId,
+		pl.pref_name AS prefName,
+		st.store_name AS
+		storeName,
+		bl.branch_name AS branchName,
+		DATE_FORMAT(uc.parchase_date,
+		'%Y年%m月%d日') AS PD,
+		uc.sales_amount AS salesAmount,
+		ml.maker_name AS
+		makerName,
+		tl.type_name AS typeName,
+		mol.model_name AS modelName
+		FROM
+		used_cars uc
+		INNER JOIN branches_list bl ON uc.branch_code =
+		bl.branch_code
+		INNER JOIN stores_list st ON bl.store_code =
+		st.store_code
+		INNER JOIN prefs_list pl ON bl.pref_code = pl.pref_code
+		INNER JOIN models_list mol ON mol.model_code = uc.model_code
+		INNER JOIN
+		makers_list ml ON ml.maker_code = mol.maker_code
+		INNER JOIN types_list
+		tl ON tl.type_code = mol.type_code
+		WHERE uc.parchase_date IS NOT NULL
+		<if test="storeCode != null and storeCode != ''">
+			AND st.store_code = #{storeCode}
+		</if>
+		<if test="yearNumber != null and yearNumber != ''">
+			AND YEAR(uc.parchase_date) = #{yearNumber}
+		</if>
+		<if test="monthNumber != null and monthNumber != ''">
+			AND MONTH(uc.parchase_date) = #{monthNumber}
+		</if>
+		ORDER BY uc.parchase_date DESC
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+
+	<select id="aggregateSalesForGraph" resultType="Map">
+		SELECT st.store_name AS storeName,
+		COUNT(uc.car_id) AS numberOfCars,
+		SUM(uc.sales_amount) AS salesAmount
+		FROM used_cars uc
+		INNER JOIN
+		branches_list bl ON uc.branch_code = bl.branch_code
+		INNER JOIN
+		stores_list st ON bl.store_code = st.store_code
+		WHERE uc.parchase_date
+		IS NOT NULL
+		<if test="storeCode != null and storeCode != ''">
+			AND st.store_code = #{storeCode}
+		</if>
+		<if test="year != null and year != ''">
+			AND YEAR(uc.parchase_date) = #{year}
+		</if>
+		<if test="month != null and month != ''">
+			AND MONTH(uc.parchase_date) = #{month}
+		</if>
+		GROUP BY st.store_name
+		ORDER BY st.store_name
+	</select>
+
+	<select id="searchSalesHistoryForCSV" resultType="java.util.Map">
+		SELECT
+		pl.pref_name AS prefName,
+		st.store_name AS storeName,
+		bl.branch_name AS branchName,
+		DATE_FORMAT(uc.parchase_date,'%Y/%m/%d') AS PD,
+		uc.sales_amount AS salesAmount,
+		ml.maker_name AS makerName,
+		tl.type_name AS typeName,
+		mol.model_name AS modelName
+		FROM used_cars uc
+		INNER JOIN branches_list bl ON uc.branch_code = bl.branch_code
+		INNER JOIN prefs_list pl ON bl.pref_code = pl.pref_code
+		INNER JOIN stores_list st ON bl.store_code = st.store_code
+		INNER JOIN models_list mol ON mol.model_code = uc.model_code
+		INNER JOIN makers_list ml ON ml.maker_code = mol.maker_code
+		INNER JOIN types_list tl ON tl.type_code = mol.type_code
+		WHERE uc.parchase_date IS NOT NULL
+		<if test="storeCode != null and storeCode != ''">
+			AND st.store_code = #{storeCode}
+		</if>
+		<if test="year != null and year != ''">
+			AND YEAR(uc.parchase_date) = #{year}
+		</if>
+		<if test="month != null and month != ''">
+			AND MONTH(uc.parchase_date) = #{month}
+		</if>
+	</select>
+	<insert id="insertUsedCarBatch" parameterType="java.util.List">
+		INSERT INTO used_cars (branch_code, model_code, sales_amount,
+		parchase_date)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(#{item.branchCode}, #{item.modelCode}, #{item.salesAmount},
+			#{item.parchaseDate})
+		</foreach>
+	</insert>
+</mapper>
