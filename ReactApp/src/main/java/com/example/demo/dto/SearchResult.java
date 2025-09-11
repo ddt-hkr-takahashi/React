@@ -3,33 +3,48 @@ package com.example.demo.dto;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 検索結果を格納するためのデータ転送オブジェクト (DTO)
+ */
 public class SearchResult {
-	private String resultCountMessage;
-	private List<SalesInfoDto> salesResultList;
-	private List<Map<String, Object>> popularResultList;
+	/**
+	 * 検索結果に関するメッセージ（例：総件数など）
+	 */
+	private String resultMessage;
+	/**
+	 * 検索結果のリスト
+	 */
+	private List<Map<String, Object>> resultList;
 
-	// getterとsetter
-	public String getResultCountMessage() {
-		return resultCountMessage;
+	/**
+	 * 検索結果に関するメッセージを取得する
+	 * @return 検索結果メッセージ
+	 */
+	public String getResultMessage() {
+		return resultMessage;
 	}
 
-	public void setResultCountMessage(String resultCountMessage) {
-		this.resultCountMessage = resultCountMessage;
+	/**
+	 * 検索結果に関するメッセージを設定する
+	 * @param resultMessage 検索結果メッセージ
+	 */
+	public void setResultMessage(String resultMessage) {
+		this.resultMessage = resultMessage;
 	}
 
-	public List<SalesInfoDto> getSalesResultList() {
-		return salesResultList;
-	}
-	
-	public List<Map<String, Object>> getPopularResultList() {
-		return popularResultList;
-	}
-
-	public void setResultList(List<SalesInfoDto> salesResultList) {
-		this.salesResultList = salesResultList;
+	/**
+	 * 検索結果のリストを取得する
+	 * @return 検索結果リスト
+	 */
+	public List<Map<String, Object>> getResultList() {
+		return resultList;
 	}
 
-	public void setPopularResultList(List<Map<String, Object>> popularResultList) {
-		this.popularResultList = popularResultList;
+	/**
+	 * 検索結果のリストを設定する
+	 * @param resultList 検索結果リスト
+	 */
+	public void setResultList(List<Map<String, Object>> resultList) {
+		this.resultList = resultList;
 	}
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import lombok.Data;
 
 /**
- * 複数のテーブルの結合結果を保持するエンティティ
+ * 店舗情報管理機能に対応するentityクラス
  */
 @EntityScan
 @Data

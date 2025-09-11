@@ -44,8 +44,8 @@ public class OwnerInfoController {
 		SearchResult searchResult = ownerInformationService.refineSearch(ownerName, gender, minAge, maxAge, page, size);
 		// フロントエンドの期待する形式に変換
 		Map<String, Object> response = new HashMap<>();
-		response.put("resultList", searchResult.getPopularResultList());
-		response.put("resultCountMessage", searchResult.getResultCountMessage());
+		response.put("resultList", searchResult.getResultList());
+		response.put("resultCountMessage", searchResult.getResultMessage());
 
 		return response;
 	}

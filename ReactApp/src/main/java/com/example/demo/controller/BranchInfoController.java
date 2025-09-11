@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.SearchResult;
 import com.example.demo.service.BranchInformationService;
 
+/**
+ * 店舗情報に関するAPIエンドポイントを提供するRestControllerクラス
+ */
 @RestController
 @RequestMapping("/api/branch-information")
 public class BranchInfoController {
@@ -24,42 +27,47 @@ public class BranchInfoController {
 	private BranchInformationService branchInformationService;
 
 	/**
-	 * 店舗情報を検索します。
+	 * 店舗情報を検索する
 	 * @param prefCode 都道府県コード (任意)
 	 * @param storeCode 店舗コード (任意)
+	 * @param page ページ番号
+	 * @param size 1ページあたりの表示件数
 	 * @return 検索結果と総件数を含むMap
 	 */
 	@GetMapping("/search-result")
 	public Map<String, Object> searchBranches(
 			@RequestParam(required = false) String prefCode,
 			@RequestParam(required = false) String storeCode,
-			// ページ番号と1ページあたりの表示件数を追加
 			@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "100") int size) {
+		// サービス層で店舗情報を検索
 		SearchResult searchResult = branchInformationService.refineSearch(prefCode, storeCode, page,
 				size);
 
-		// フロントエンドの期待する形式に変換
+		// レスポンスの形式を整形
 		Map<String, Object> response = new HashMap<>();
-		response.put("resultList", searchResult.getPopularResultList());
-		response.put("resultCountMessage", searchResult.getResultCountMessage());
+		response.put("resultList", searchResult.getResultList());
+		response.put("resultCountMessage", searchResult.getResultMessage());
 
 		return response;
 	}
 
 	/**
-	 * データ追加機能
-	 * @param requestBody 追加するデータのMap
+	 * 店舗情報を追加する
+	 * @param requestBody 追加する店舗データのMap
 	 * @return 実行結果メッセージを含むJSONレスポンス
 	 */
 	@PostMapping("/add")
 	public ResponseEntity<Map<String, String>> addFunction(
 			@RequestBody Map<String, Object> requestBody) {
+		// リクエストボディからデータ抽出
 		String prefCode = (String) requestBody.get("prefCode");
 		String storeCode = (String) requestBody.get("storeCode");
 		String branchName = (String) requestBody.get("branchName");
 
+		// サービス層で追加処理を実行
 		String returnMessage = branchInformationService.addData(prefCode, storeCode, branchName);
+		// 処理結果に応じてレスポンスを返す
 		if (returnMessage == null) {
 			return new ResponseEntity<>(Map.of("message", "店舗情報を追加しました。"), HttpStatus.OK);
 		} else {
@@ -68,19 +76,22 @@ public class BranchInfoController {
 	}
 
 	/**
-	 * データ編集機能
-	 * @param requestBody 編集するデータを含むMap
+	 * 店舗情報を編集する
+	 * @param requestBody 編集する店舗データを含むMap
 	 * @return 実行結果メッセージを含むJSONレスポンス
 	 */
 	@PostMapping("/edit")
 	public ResponseEntity<Map<String, String>> editFunction(
 			@RequestBody Map<String, Object> requestBody) {
+		// リクエストボディからデータ抽出
 		String prefCode = (String) requestBody.get("prefCode");
 		String storeCode = (String) requestBody.get("storeCode");
 		String branchName = (String) requestBody.get("branchName");
 		Integer branchCode = (Integer) requestBody.get("branchCode");
 
+		// サービス層で編集処理を実行
 		String returnMessage = branchInformationService.editData(prefCode, storeCode, branchName, branchCode);
+		// 処理結果に応じてレスポンスを返す
 		if (returnMessage == null) {
 			return new ResponseEntity<>(Map.of("message", "店舗情報を編集しました。"), HttpStatus.OK);
 		} else {
@@ -89,15 +100,18 @@ public class BranchInfoController {
 	}
 
 	/**
-	 * データ削除機能
+	 * 店舗情報を削除する
 	 * @param requestBody 削除する支店コードの配列を含むMap
 	 * @return 実行結果メッセージを含むJSONレスポンス
 	 */
 	@PostMapping("/delete")
 	public ResponseEntity<Map<String, String>> deleteFunction(
 			@RequestBody Map<String, int[]> requestBody) {
+		// リクエストボディから削除対象の支店コード配列を取得
 		int[] branchCodes = requestBody.get("branchCodes");
+		// サービス層で削除処理を実行
 		String errorMessage = branchInformationService.deleteData(branchCodes);
+		// 処理結果に応じてレスポンスを返す
 		if (errorMessage == null) {
 			return new ResponseEntity<>(Map.of("message", "店舗情報を削除しました。"), HttpStatus.OK);
 		} else {

@@ -3,7 +3,7 @@ package com.example.demo.dto;
 import lombok.Data;
 
 /**
- * owners_listテーブルに対応するエンティティクラス
+ * 元所有者管理機能に対応するDTOクラス
  */
 @Data
 public class OwnerInfoDto {

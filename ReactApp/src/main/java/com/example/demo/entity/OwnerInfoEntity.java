@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import lombok.Data;
 
 /**
- * owners_listテーブルに対応するエンティティクラス
+ * 元所有者管理機能に対応するentityクラス
  */
 @EntityScan
 @Data

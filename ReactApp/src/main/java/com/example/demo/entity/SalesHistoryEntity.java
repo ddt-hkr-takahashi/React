@@ -2,6 +2,10 @@ package com.example.demo.entity;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+/**
+ * 販売履歴機能に対応するentityクラス
+ */
+
 import lombok.Data;
 @EntityScan
 @Data

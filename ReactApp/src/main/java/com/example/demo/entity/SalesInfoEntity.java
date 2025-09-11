@@ -2,6 +2,10 @@ package com.example.demo.entity;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+/**
+ * 販売情報管理機能に対応するentityクラス
+ */
+
 import lombok.Data;
 @EntityScan
 @Data

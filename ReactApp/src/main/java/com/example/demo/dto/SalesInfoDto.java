@@ -2,6 +2,9 @@ package com.example.demo.dto;
 
 import lombok.Data;
 
+/**
+ * 販売情報管理機能に対応するDTOクラス
+ */
 @Data
 public class SalesInfoDto {
 	private String carId;

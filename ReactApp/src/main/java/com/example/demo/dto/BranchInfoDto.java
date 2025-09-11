@@ -3,7 +3,7 @@ package com.example.demo.dto;
 import lombok.Data;
 
 /**
- * 複数のテーブルの結合結果を保持するエンティティ
+ * 店舗情報管理機能に対応するDTOクラス
  */
 @Data
 public class BranchInfoDto {

@@ -35,7 +35,7 @@
 	</select>
 
 	<select id="searchUsedCars"
-		resultType="com.example.demo.entity.SalesInfoEntity">
+		resultType="Map">
 		SELECT
 		uc.car_id AS carId,
 		pl.pref_name AS prefName,
@@ -100,7 +100,7 @@
 	</select>
 
 	<select id="selectModelsWithCombinedName"
-		resultType="com.example.demo.dto.SalesInfoDto">
+		resultType="Map">
 		SELECT
 		mol.model_code,
 		CONCAT(ml.maker_name, '-',

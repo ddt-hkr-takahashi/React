@@ -22,7 +22,7 @@ import com.example.demo.dto.SalesHistoryDto;
 import com.example.demo.dto.SearchResult;
 
 /**
- * 要求に対して要件に沿ってSQLを生成するクラス(販売履歴)
+ * 販売履歴に関するビジネスロジックを提供するサービスクラス
  */
 @Service
 public class SalesHistoryService {
@@ -34,34 +34,38 @@ public class SalesHistoryService {
 
 	/**
 	 * 絞り込み検索（一覧用）を実行
-	 * @param storeCode 店舗コード
-	 * @param yearNumber 年
-	 * @param monthNumber 月
+	 * @param storeCode 店舗コード (任意)
+	 * @param yearNumber 年 (任意)
+	 * @param monthNumber 月 (任意)
 	 * @param page ページ番号
 	 * @param size 1ページあたりの表示件数
-	 * @return 検索結果のリスト
+	 * @return 検索結果を格納したSearchResultオブジェクト
 	 */
 	public SearchResult refineSearch(String storeCode, String yearNumber, String monthNumber, int page,
 			int size) {
 
+		// 検索結果を格納するオブジェクトを初期化
 		SearchResult searchResult = new SearchResult();
 
 		// オフセットを計算（0始まり）
 		int offset = (page - 1) * size;
 
 		try {
-			searchResult.setPopularResultList(SalesHistoryMapper.searchSalesHistory(
+			// 絞り込み条件に基づいて販売履歴を取得
+			searchResult.setResultList(SalesHistoryMapper.searchSalesHistory(
 					storeCode, yearNumber, monthNumber, size, offset));
 
+			// 検索結果の総件数を取得
 			int totalCount = SalesHistoryMapper.countSalesHistory(storeCode, yearNumber, monthNumber);
 
-			searchResult.setResultCountMessage("全 " + totalCount + " 件中 " + ((page - 1) * size + 1) + " 件から "
+			// 結果件数メッセージを設定
+			searchResult.setResultMessage("全 " + totalCount + " 件中 " + ((page - 1) * size + 1) + " 件から "
 					+ Math.min(page * size, totalCount) + " 件までを表示しています。");
 
 		} catch (PersistenceException e) {
-
+			// データベース操作中のエラーを捕捉し、エラーメッセージを設定
 			searchResult.setResultList(null);
-			searchResult.setResultCountMessage("検索中にエラーが発生しました : " + e.getMessage());
+			searchResult.setResultMessage("検索中にエラーが発生しました : " + e.getMessage());
 
 		}
 
@@ -70,37 +74,39 @@ public class SalesHistoryService {
 
 	/**
 	 * グラフ表示用に集計検索を実行
-	 * @param storeCode 店舗コード
-	 * @param YEAR 年
-	 * @param MONTH 月
+	 * @param storeCode 店舗コード (任意)
+	 * @param year 年 (任意)
+	 * @param month 月 (任意)
 	 * @return 集計結果のリスト
 	 */
 	public List<Map<String, Object>> refineSearchGragh(String storeCode, String year, String month) {
+		// サービス層でグラフ用の集計検索を実行
 		return SalesHistoryMapper.aggregateSalesForGraph(storeCode, year, month);
 	}
 
 	/**
 	 * CSV出力用に全件検索を実行
-	 * @param storeCode 店舗コード
-	 * @param YEAR 年
-	 * @param MONTH 月
+	 * @param storeCode 店舗コード (任意)
+	 * @param YEAR 年 (任意)
+	 * @param MONTH 月 (任意)
 	 * @return 検索結果のリスト
 	 */
 	public List<Map<String, Object>> refineSearchCSV(String storeCode, String YEAR, String MONTH) {
+		// サービス層でCSV出力用の検索を実行
 		return SalesHistoryMapper.searchSalesHistoryForCSV(storeCode, YEAR, MONTH);
 	}
 
 	/**
 	 * CSVファイルを読み込み、データをデータベースに挿入
 	 * @param file アップロードされたCSVファイル
-	 * @return
-	 * @throws SQLException
+	 * @return エラーメッセージ（成功時はnull）
 	 */
 	@Transactional(rollbackFor = Exception.class) // トランザクション管理を追加
 	public String insertData(MultipartFile file) {
 		long startTime = System.currentTimeMillis();
 
 		try {
+			// キャッシュを事前に構築
 			GeneralModel.buildCache();
 		} catch (SQLException e1) {
 			return "キャッシュの構築に失敗しました。";
@@ -112,7 +118,8 @@ public class SalesHistoryService {
 			String CSVDelimiter = ",";
 			int batchSize = 1000;
 
-			br.readLine(); // ヘッダー行を読み飛ばす
+			// ヘッダー行を読み飛ばす
+			br.readLine();
 
 			while ((line = br.readLine()) != null) {
 				String[] data = line.split(CSVDelimiter);
@@ -130,7 +137,7 @@ public class SalesHistoryService {
 						.get(String.format("%s_%s_%s", makerName, typeName, modelName));
 				String branchCode = GeneralModel.branchCacheMap.get(branchName);
 
-				// UsedCarEntityを作成しリストに追加
+				// SalesHistoryDtoを作成しリストに追加
 				SalesHistoryDto car = new SalesHistoryDto();
 				car.setBranchCode(branchCode);
 				car.setModelCode(modelCode);
@@ -164,12 +171,14 @@ public class SalesHistoryService {
 	/**
 	 * CSV出力機能
 	 * @param resultList CSVに出力するデータ
-	 * @param fileName 
+	 * @param fileName 出力ファイル名
 	 */
 	public void createCSV(List<Map<String, Object>> resultList, String fileName) throws RuntimeException {
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(fileName)))) {
+			// ヘッダー行を出力
 			writer.println("都道府県,販売店,支店名,販売日,販売額,メーカ,タイプ,車種");
 			for (Map<String, Object> row : resultList) {
+				// データ行をフォーマットして出力
 				writer.printf("%s,%s,%s,%s,%s,%s,%s,%s\n",
 						row.get("prefName"),
 						row.get("storeName"),
@@ -181,6 +190,7 @@ public class SalesHistoryService {
 						row.get("modelName"));
 			}
 		} catch (IOException e) {
+			// ファイル操作中のエラーを捕捉
 			throw new RuntimeException("CSVファイルの作成中にエラーが発生しました。", e);
 		}
 	}

@@ -2,6 +2,9 @@ package com.example.demo.dto;
 
 import lombok.Data;
 
+/**
+ * 販売履歴機能に対応するDTOクラス
+ */
 @Data
 public class SalesHistoryDto {
 

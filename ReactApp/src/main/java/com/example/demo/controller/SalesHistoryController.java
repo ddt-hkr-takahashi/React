@@ -23,6 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.dto.SearchResult;
 import com.example.demo.service.SalesHistoryService;
 
+/**
+ * 販売履歴に関するAPIエンドポイントを提供するRestControllerクラス
+ */
 @RestController
 @RequestMapping("/api/sales-history")
 public class SalesHistoryController {
@@ -31,7 +34,13 @@ public class SalesHistoryController {
 	private SalesHistoryService SalesHistoryService;
 
 	/**
-	 * 販売履歴を検索します。
+	 * 販売履歴を検索する
+	 * @param storeCode 店舗コード (任意)
+	 * @param yearNumber 年 (任意)
+	 * @param monthNumber 月 (任意)
+	 * @param page ページ番号
+	 * @param size 1ページあたりの表示件数
+	 * @return 検索結果と総件数を含むMap
 	 */
 	@GetMapping("/search-result")
 	public Map<String, Object> searchSalesHistory(
@@ -40,34 +49,43 @@ public class SalesHistoryController {
 			@RequestParam(required = false) String monthNumber,
 			@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "100") int size) {
-
+		// サービス層で販売履歴を検索
 		SearchResult searchResult = SalesHistoryService.refineSearch(storeCode, yearNumber, monthNumber, page,
 				size);
 
+		// レスポンスの形式を整形
 		Map<String, Object> response = new HashMap<>();
-		response.put("resultList", searchResult.getPopularResultList());
-		response.put("resultCountMessage", searchResult.getResultCountMessage());
+		response.put("resultList", searchResult.getResultList());
+		response.put("resultCountMessage", searchResult.getResultMessage());
 		return response;
 	}
 
 	/**
-	 * グラフ表示用に集計検索を実行します。
+	 * グラフ表示用に集計検索を実行する
+	 * @param storeCode 店舗コード (任意)
+	 * @param year 年 (任意)
+	 * @param month 月 (任意)
+	 * @return 集計結果のリスト
 	 */
 	@GetMapping("/search-gragh")
 	public List<Map<String, Object>> searchSalesHistoryGragh(
 			@RequestParam(required = false) String storeCode,
 			@RequestParam(required = false) String year,
 			@RequestParam(required = false) String month) {
-
+		// サービス層でグラフ用の集計検索を実行
 		return SalesHistoryService.refineSearchGragh(storeCode, year, month);
 	}
 
 	/**
-	 * CSVファイルをアップロードし、データをデータベースに挿入します。
+	 * CSVファイルをアップロードし、データをデータベースに挿入する
+	 * @param file アップロードされたMultipartFile
+	 * @return 実行結果メッセージを含むJSONレスポンス
 	 */
 	@PostMapping("/import-csv")
 	public ResponseEntity<Map<String, String>> importCSV(@RequestParam("file") MultipartFile file) {
+		// サービス層でCSVインポート処理を実行
 		String returnMessage = SalesHistoryService.insertData(file);
+		// 処理結果に応じてレスポンスを返す
 		if (returnMessage == null) {
 			return new ResponseEntity<>(Map.of("message", "CSVファイルのインポートが完了しました。"), HttpStatus.OK);
 		} else {
@@ -75,40 +93,47 @@ public class SalesHistoryController {
 		}
 	}
 
-    /**
-     * 検索結果を基にCSVファイルを作成し、ダウンロードさせます。
-     */
-    @PostMapping("/export-csv")
-    public ResponseEntity<Resource> createCSVAndDownload(@RequestParam(required = false) String storeCode,
-            @RequestParam(required = false) String yearNumber,
-            @RequestParam(required = false) String monthNumber) {
+	/**
+			     * 検索結果を基にCSVファイルを作成し、ダウンロードさせる
+			 * @param storeCode 店舗コード (任意)
+			 * @param yearNumber 年 (任意)
+			 * @param monthNumber 月 (任意)
+			     * @return ダウンロード用のCSVファイルを含むResponseEntity
+			     */
 
-        List<Map<String, Object>> resultList = SalesHistoryService.refineSearchCSV(storeCode, yearNumber, monthNumber);
-        String fileName = "sales_history.csv";
-        Path filePath = Paths.get(fileName);
+	@PostMapping("/export-csv")
+	public ResponseEntity<Resource> createCSVAndDownload(@RequestParam(required = false) String storeCode,
+			@RequestParam(required = false) String yearNumber,
+			@RequestParam(required = false) String monthNumber) {
 
-        try {
-            // 既存のcreateCSVメソッドを呼び出して、サーバーにファイルを作成します。
-            SalesHistoryService.createCSV(resultList, fileName);
-            
-            Resource resource = new UrlResource(filePath.toUri());
+		// サービス層で検索を実行し、結果を取得
+		List<Map<String, Object>> resultList = SalesHistoryService.refineSearchCSV(storeCode, yearNumber, monthNumber);
+		String fileName = "sales_history.csv";
+		Path filePath = Paths.get(fileName);
 
-            if (resource.exists() || resource.isReadable()) {
-                // ダウンロード用のヘッダーを設定
-                HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
-                headers.add(HttpHeaders.CONTENT_TYPE, "text/csv;charset=Shift_JIS");
-                
-                return ResponseEntity.ok()
-                        .headers(headers)
-                        .body(resource);
-            } else {
-                throw new RuntimeException("CSVファイルが見つからないか、読み取れません。");
-            }
+		try {
+			// サーバーにCSVファイルを作成
+			SalesHistoryService.createCSV(resultList, fileName);
 
-        } catch (IOException | RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
-        }
-    }
+			// 作成したファイルをリソースとして取得
+			Resource resource = new UrlResource(filePath.toUri());
+
+			if (resource.exists() || resource.isReadable()) {
+				// ダウンロード用のヘッダーを設定
+				HttpHeaders headers = new HttpHeaders();
+				headers.add(HttpHeaders.CONTENT_TYPE, "text/csv;charset=Shift_JIS");
+
+				// レスポンスエンティティとしてファイルを返す
+				return ResponseEntity.ok()
+						.headers(headers)
+						.body(resource);
+			} else {
+				throw new RuntimeException("CSVファイルが見つからないか、読み取れません。");
+			}
+
+		} catch (IOException | RuntimeException e) {
+			// 例外発生時のエラーレスポンス
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 }
