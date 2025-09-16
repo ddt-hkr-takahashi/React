@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>店舗情報管理</title>
+<link rel="stylesheet" th:href="@{/branchInformationMenu.css}">
+<link rel="stylesheet" th:href="@{/appHeader.css}">
+<script th:src="@{/appHeader.js}"></script>
+<script th:src="@{/common.js}" type="module"></script>
+<script th:src="@{/branchInformationMenu.js}" type="module"></script>
+</head>
+<body>
+	<div id="header-placeholder"></div>
+
+	<main class="container">
+		<h2>支店情報管理</h2>
+
+		<section class="search-section">
+			<form id="searchForm" method="post" class="search-form-flex"
+				th:action="@{/branch-information-menu/search-result}">
+				<div class="form-group">
+					<label for="prefCode">都道府県</label> <select id="prefCode"
+						name="prefCode">
+						<option value=""
+							th:selected="${prefCode == null or prefCode == ''}">未選択</option>
+						<option th:each="pref : ${prefList}" th:value="${pref.pref_code}"
+							th:text="${pref.pref_name}"
+							th:selected="${pref.pref_code == prefCode}">都道府県名</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="storeCode">店舗</label> <select id="storeCode"
+						name="storeCode">
+						<option value=""
+							th:selected="${storeCode == null or storeCode == ''}">未選択</option>
+						<option th:each="store : ${storeList}"
+							th:value="${store.store_code}" th:text="${store.store_name}"
+							th:selected="${store.store_code == storeCode}">店舗名</option>
+					</select>
+				</div>
+				<button type="submit" id="searchButton" class="button search-button">検索</button>
+			</form>
+		</section>
+
+		<section class="list-section">
+			<h3>支店一覧</h3>
+			<div class="list-actions">
+				<button type="button" class="button action-button add-button">追加</button>
+				<button type="button" class="button action-button edit-button"
+					data-min-message="編集する項目を選択してください。"
+					data-max-message="編集できる項目は1つだけです。複数選択されています。">編集</button>
+				<button type="button" class="button action-button delete-button"
+					data-min-message="削除する項目を選択してください。"
+					data-confirm-message="選択された項目を本当に削除しますか？">削除</button>
+			</div>
+			<form id="deleteForm" method="post" style="display: inline;">
+				<div id="results-area" th:fragment="results-fragment">
+					<p th:if="${resultCountMessage}" class="result-count-message"
+						th:text="${resultCountMessage}"></p>
+					<p th:if="${errorMessage}" class="error-message"
+						th:text="${errorMessage}"></p>
+					<table class="data-table"
+						th:if="${resultList != null and !resultList.empty}">
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="selectAll"></th>
+								<th>都道府県</th>
+								<th>店舗名</th>
+								<th>支店名</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="branch : ${resultList}">
+								<td><input type="checkbox" name="branch_codes"
+									th:value="${branch.branchCode}"></td>
+								<td th:text="${branch.prefName}"></td>
+								<td th:text="${branch.storeName}"></td>
+								<td th:text="${branch.branchName}"></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="pagination" th:if="${totalPages > 1}">
+						<span th:if="${currentPage > 1}"><a
+							th:href="@{'/branch-information-menu?page=' + ${currentPage - 1} + '&prefCode=' + ${param.prefCode} + '&storeCode=' + ${param.storeCode}}"
+							th:data-page="${currentPage - 1}">&laquo; 前へ</a></span> <span
+							th:each="i : ${#numbers.sequence(1, totalPages)}"><a
+							th:href="@{'/branch-information-menu?page=' + ${i} + '&prefCode=' + ${param.prefCode} + '&storeCode=' + ${param.storeCode}}"
+							th:data-page="${i}"
+							th:classappend="${i == currentPage} ? 'active' : ''"
+							th:text="${i}"></a></span> <span th:if="${currentPage < totalPages}"><a
+							th:href="@{'/branch-information-menu?page=' + ${currentPage + 1} + '&prefCode=' + ${param.prefCode} + '&storeCode=' + ${param.storeCode}}"
+							th:data-page="${currentPage + 1}">次へ &raquo;</a></span>
+					</div>
+				</div>
+			</form>
+		</section>
+	</main>
+</body>
+</html>

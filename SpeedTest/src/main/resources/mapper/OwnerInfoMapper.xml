@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.example.mapper.selfCreateMapper.OwnerInfoMapper">
+
+	<select id="refineSearch" resultType="map">
+		SELECT
+		ol.owner_code AS ownerCode,
+		ol.owner_name AS ownerName,
+		ol.sex,
+		ol.age,
+		COUNT(uc.car_id) AS
+		salesCount
+		FROM
+		owners_list ol
+		LEFT JOIN
+		used_cars uc ON ol.owner_code = uc.owner_code
+		<where>
+			<if test="ownerName != null and ownerName != ''">
+				AND ol.owner_name LIKE CONCAT('%', #{ownerName}, '%')
+			</if>
+			<if test="sex != null and sex != ''">
+				AND ol.sex = #{sex}
+			</if>
+			<if test="minAge != null and minAge != ''">
+				AND ol.age &gt;= #{minAge}
+			</if>
+			<if test="maxAge != null and maxAge != ''">
+				AND ol.age &lt;= #{maxAge}
+			</if>
+		</where>
+		GROUP BY
+		ol.owner_code, ol.owner_name, ol.sex, ol.age
+	</select>
+
+	<select id="countRefinedSearch" resultType="int">
+		SELECT COUNT(*) FROM owners_list
+		<where>
+			<if test="ownerName != null and ownerName != ''">
+				AND owner_name LIKE CONCAT('%', #{ownerName}, '%')
+			</if>
+			<if test="sex != null and sex != ''">
+				AND sex = #{sex}
+			</if>
+			<if test="minAge != null and minAge != ''">
+				AND age &gt;= #{minAge}
+			</if>
+			<if test="maxAge != null and maxAge != ''">
+				AND age &lt;= #{maxAge}
+			</if>
+		</where>
+	</select>
+
+	<select id="getOwnerByCode" resultType="map">
+		SELECT owner_code,
+		owner_name, sex, age FROM owners_list WHERE owner_code =
+		#{ownerCode}
+	</select>
+
+</mapper>

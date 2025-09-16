@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>支店情報追加</title>
+<link rel="stylesheet" th:href="@{/Editer.css}">
+<link rel="stylesheet" th:href="@{/appHeader.css}">
+<script th:src="@{/appHeader.js}"></script>
+<script th:src="@{/common.js}" type="module"></script>
+<script th:src="@{/branchInformationMenu.js}" type="module"></script>
+</head>
+<body>
+	<div id="header-placeholder"></div>
+	<main class="container">
+		<section class="edit-form-section">
+			<h2>支店情報追加</h2>
+			<form id="addForm" method="post">
+				<div class="form-group">
+					<label for="prefCode">都道府県</label><select id="prefCode"
+						name="prefCode">
+						<option th:each="pref : ${prefList}" th:value="${pref.pref_code}"
+							th:text="${pref.pref_name}">都道府県名</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="storeCode">店舗</label><select id="storeCode"
+						name="storeCode">
+						<option th:each="store : ${storeList}"
+							th:value="${store.store_code}" th:text="${store.store_name}">店舗名</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="branchName">支店名:</label> <input type="text"
+						id="branchName" name="branchName" value="" required>
+				</div>
+
+				<div class="form-actions">
+					<button type="button" class="button update-button" id="addButton">追加</button>
+					<button type="button" class="button cancel-button"
+						id="cancelButton">キャンセル</button>
+				</div>
+			</form>
+		</section>
+	</main>
+</body>
+</html>

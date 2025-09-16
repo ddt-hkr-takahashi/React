@@ -1,0 +1,87 @@
+/* mainMenu.css */
+
+/* mainMenu.html 専用のスタイル */
+
+/* body要素全体にスタイルを適用 */
+body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* フォントを指定 */
+	margin: 0; /* 外部余白を0に設定 */
+	padding: 0; /* 内部余白を0に設定 */
+	background-color: #f4f7f6; /* 背景色を設定 */
+	color: #333; /* テキストの基本色を設定 */
+	display: flex; /* Flexboxコンテナとして設定 */
+	flex-direction: column; /* 子要素を縦方向に並べる */
+	justify-content: center; /* 主軸（縦）方向の中央に配置 */
+	align-items: center; /* 交差軸（横）方向の中央に配置 */
+	min-height: 100vh; /* 画面全体の高さを最低限確保 */
+}
+
+/* メインコンテンツを囲むコンテナのスタイル */
+.container {
+	background-color: #ffffff; /* 背景色を白に設定 */
+	padding: 40px; /* 内側に40pxの余白を設定 */
+	border-radius: 10px; /* 角を丸くする */
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 影を追加して立体感を出す */
+	text-align: center; /* コンテナ内のテキストを中央揃えにする */
+	max-width: 600px; /* 最大幅を600pxに設定 */
+	width: 90%; /* 画面幅の90%を使用 */
+	box-sizing: border-box; /* パディングとボーダーを幅の計算に含める */
+}
+
+/* メイン見出し（h1）のスタイル */
+h1 {
+	color: #2c3e50; /* 見出しの色を設定 */
+	margin-bottom: 30px; /* 下部に30pxの余白を設定 */
+	font-size: 2.2em; /* フォントサイズを大きく設定 */
+	border-bottom: 2px solid #eee; /* 下に細い線を追加 */
+	padding-bottom: 15px; /* 下線とテキストの間に余白を設定 */
+	display: inline-block; /* インラインブロック要素にして、境界線の幅を見出しのテキスト幅に合わせる */
+	text-align: center; /* 見出し内のテキストを中央揃えにする */
+}
+
+/* リスト（ul）のスタイル */
+ul {
+	list-style: none; /* リストのマーカーを非表示にする */
+	padding: 0; /* 内部余白を削除 */
+	margin: 0 0 30px 0; /* 外部余白を削除し、下部に30pxの余白を設定 */
+	display: flex; /* Flexboxコンテナとして設定 */
+	flex-direction: column; /* 子要素を縦方向に並べる */
+	gap: 15px; /* リスト項目の間に15pxの間隔を設定 */
+}
+
+/* リストアイテム（li）のスタイル */
+li {
+	margin-bottom: 0; /* 下部の外部余白を削除 */
+}
+
+/* リストアイテム内のリンク（a）のスタイル */
+li a {
+	display: block; /* ブロック要素にして、クリック領域を広げる */
+	text-decoration: none; /* 下線を削除 */
+	background-color: #007bff; /* 背景色を青に設定 */
+	color: white; /* テキスト色を白に設定 */
+	padding: 15px 25px; /* 内側に余白を設定 */
+	border-radius: 8px; /* 角を丸くする */
+	font-size: 1.1em; /* フォントサイズを設定 */
+	transition: background-color 0.3s ease, transform 0.2s ease; /* ホバー時の変化を滑らかにする */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 影を追加 */
+}
+
+/* リンク（a）のマウスオーバー時のスタイル */
+li a:hover {
+	background-color: #0056b3; /* 背景色を濃い青に変更 */
+	transform: translateY(-2px); /* Y軸方向に-2px移動させて少し浮き上がるアニメーション */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 影を濃くする */
+}
+
+/* 情報ボックス（.info-box）のスタイル */
+.info-box {
+	background-color: #e9f7ef; /* 背景色を薄い緑に設定 */
+	color: #28a745; /* テキスト色を濃い緑に設定 */
+	padding: 15px; /* 内側に15pxの余白を設定 */
+	border-radius: 8px; /* 角を丸くする */
+	border: 1px solid #28a745; /* 枠線を追加 */
+	margin-top: 20px; /* 上部に20pxの余白を設定 */
+	font-size: 0.9em; /* フォントサイズを少し小さくする */
+	line-height: 1.6; /* 行の高さを設定 */
+}

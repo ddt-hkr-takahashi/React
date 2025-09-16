@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.example.mapper.selfCreateMapper.BranchInfoMapper">
+
+	<select id="refineSearch" resultType="map">
+		SELECT
+		bl.branch_code AS branchCode,
+		pl.pref_name AS prefName,
+		sl.store_name AS storeName,
+		bl.branch_name AS branchName
+		FROM
+		branches_list bl
+		INNER JOIN prefs_list pl ON pl.pref_code =
+		bl.pref_code
+		INNER JOIN stores_list sl ON sl.store_code = bl.store_code
+		<where>
+			<if test="prefCode != null and prefCode != ''">
+				AND pl.pref_code = #{prefCode}
+			</if>
+			<if test="storeCode != null and storeCode != ''">
+				AND sl.store_code = #{storeCode}
+			</if>
+		</where>
+		ORDER BY branch_code
+	</select>
+
+	<select id="getBranchByCode" resultType="map">
+		SELECT
+		bl.branch_code AS
+		branchCode,
+		pl.pref_code AS prefCode,
+		sl.store_code AS storeCode,
+		bl.branch_name AS branchName
+		FROM branches_list bl
+		INNER JOIN prefs_list
+		pl ON pl.pref_code = bl.pref_code
+		INNER JOIN stores_list sl ON
+		sl.store_code = bl.store_code
+		WHERE bl.branch_code = #{branchCode}
+	</select>
+
+</mapper>

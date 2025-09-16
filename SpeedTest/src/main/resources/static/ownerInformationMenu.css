@@ -1,0 +1,226 @@
+/* ownerInformationMenu.css */
+
+/* 全体的なページの基本スタイル設定 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* フォントを指定 */
+    margin: 0; /* body要素の外部余白を削除 */
+    padding: 0; /* body要素の内部余白を削除 */
+    background-color: #f4f7f6; /* 背景色を設定 */
+    color: #333; /* テキストの基本色を設定 */
+}
+
+/* メインコンテンツを囲むコンテナのスタイル */
+.container {
+    max-width: 1200px; /* コンテナの最大幅を設定 */
+    margin: 20px auto; /* 上下に20px、左右は自動で中央寄せ */
+    padding: 20px; /* 内部余白を設定 */
+    background-color: #ffffff; /* コンテナの背景色を白に設定 */
+    border-radius: 8px; /* 角を丸くする */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 影を追加して立体感を出す */
+}
+
+/* メインタイトル(h2)のスタイル */
+h2 {
+    color: #2c3e50; /* タイトルの色を設定 */
+    text-align: center; /* 中央揃え */
+    margin-bottom: 30px; /* 下部に余白を設定 */
+    font-size: 2em; /* フォントサイズを相対的に大きくする */
+    border-bottom: 2px solid #eee; /* 下線を追加 */
+    padding-bottom: 10px; /* 下線とテキストの間に余白を設定 */
+}
+
+/* サブタイトル(h3)のスタイル */
+h3 {
+    color: #34495e; /* サブタイトルの色を設定 */
+    margin-top: 40px; /* 上部に大きめの余白を設定 */
+    margin-bottom: 20px; /* 下部に余白を設定 */
+    font-size: 1.5em; /* フォントサイズを設定 */
+}
+
+/* 検索部のセクションスタイル */
+.search-section {
+    padding: 20px; /* 内部余白を設定 */
+    border: 1px dashed #ccc; /* 点線で囲む */
+    border-radius: 8px; /* 角を丸くする */
+    margin-bottom: 30px; /* 下部に余白を設定 */
+    background-color: #f9fbfb; /* 背景色を薄いグレーに設定 */
+}
+
+/* 検索フォームのFlexboxコンテナ */
+.search-form-flex {
+    display: flex; /* Flexboxを有効にする */
+    flex-wrap: wrap; /* 要素が収まらない場合に折り返しを許可 */
+    gap: 15px; /* 要素間のスペースを均等に設定 */
+    align-items: flex-end; /* 項目を下揃えにする */
+}
+
+/* 各入力グループ（ラベルと入力欄）のスタイル */
+.input-group {
+    display: flex; /* Flexboxを有効にする */
+    flex-direction: column; /* 縦方向に要素を並べる */
+    margin-bottom: 0; /* 親要素でgapを設定するため、input-groupのmargin-bottomを0にする */
+}
+
+/* 入力グループ内のラベルのスタイル */
+.input-group label {
+    font-weight: bold; /* テキストを太字にする */
+    margin-bottom: 5px; /* 下部に余白を設定 */
+    color: #555; /* ラベルの色を設定 */
+    white-space: nowrap; /* テキストの折り返しを防ぐ */
+}
+
+/* テキスト入力欄、数値入力、セレクトボックスのスタイルをまとめて設定 */
+.input-group input[type="text"],
+.input-group input[type="number"],
+.input-group select {
+    padding: 10px; /* 内部余白を設定 */
+    border: 1px solid #ddd; /* 枠線の色を設定 */
+    border-radius: 4px; /* 角を丸くする */
+    font-size: 1em; /* フォントサイズを設定 */
+    box-sizing: border-box; /* パディングとボーダーを幅に含める */
+    width: 180px; /* ある程度の幅を確保 */
+}
+
+/* セレクトボックスのカスタムスタイル */
+.input-group select {
+    appearance: none; /* デフォルトの矢印を非表示にする */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2C114.7L154.7%2C247.1c-1.3%2C1.3-3%2C2-4.7%2C2s-3.4-0.7-4.7-2L5.4%2C114.7c-2.6-2.6-2.6-6.9%2C0-9.5s6.9-2.6%2C9.5%2C0L146%2C230.1L277.5%2C105.2c2.6-2.6%2C6.9-2.6%2C9.5%2C0S289.6%2C112.1%2C287%2C114.7z%22%2F%3E%3C%2Fsvg%3E'); /* カスタムの矢印SVG画像を背景に設定 */
+    background-repeat: no-repeat; /* 背景画像を繰り返さない */
+    background-position: right 8px center; /* 背景画像の位置を右端から8px、中央に設定 */
+    background-size: 12px; /* 背景画像のサイズを設定 */
+    padding-right: 30px; /* 矢印とテキストが重ならないように右側に余白を設定 */
+}
+
+
+/* 検索ボタンのスタイル */
+.search-form-flex .search-button {
+    margin-left: auto; /* 左側のマージンを自動で設定し、右端に寄せる */
+    padding: 10px 25px; /* 内部余白を設定 */
+    background-color: #007bff; /* ボタンの背景色を青系に設定 */
+    color: white; /* テキストの色を白に設定 */
+    border: none; /* 枠線を削除 */
+    border-radius: 5px; /* 角を丸くする */
+    cursor: pointer; /* カーソルをポインタに変更 */
+    font-size: 1em; /* フォントサイズを設定 */
+    transition: background-color 0.3s ease; /* ホバー時の色変化を滑らかにする */
+}
+
+/* 検索ボタンのホバースタイル */
+.search-button:hover {
+    background-color: #0056b3; /* ホバー時の背景色を濃い青に変更 */
+}
+
+/* 一覧部のセクションスタイル */
+.list-section {
+    padding: 20px; /* 内部余白を設定 */
+    border: 1px dashed #ccc; /* 点線で囲む */
+    border-radius: 8px; /* 角を丸くする */
+    background-color: #f9fbfb; /* 背景色を薄いグレーに設定 */
+    margin-bottom: 30px; /* 下部要素との間にスペース */
+}
+
+/* 一覧部のボタンコンテナのスタイル */
+.list-actions {
+    display: flex; /* Flexboxを有効にする */
+    gap: 10px; /* ボタン間のスペースを設定 */
+    justify-content: flex-end; /* ボタンを右寄せにする */
+    margin-bottom: 15px; /* 下部に余白を設定 */
+}
+
+/* .buttonと.action-button両方を持つものに適用する共通スタイル */
+.button.action-button {
+    padding: 8px 18px; /* 内部余白を設定 */
+    border: none; /* 枠線を削除 */
+    border-radius: 5px; /* 角を丸くする */
+    cursor: pointer; /* カーソルをポインタに変更 */
+    font-size: 0.95em; /* フォントサイズを設定 */
+    transition: background-color 0.3s ease; /* ホバー時の色変化を滑らかにする */
+    white-space: nowrap; /* テキストの折り返しを防ぐ */
+}
+
+/* 「追加」ボタンのスタイル */
+.add-button {
+    background-color: #28a745; /* 背景色を緑系に設定 */
+    color: white; /* テキストの色を白に設定 */
+}
+
+/* 「追加」ボタンのホバースタイル */
+.add-button:hover {
+    background-color: #218838; /* ホバー時の背景色を濃い緑に変更 */
+}
+
+/* 「編集」ボタンのスタイル */
+.edit-button {
+    background-color: #ffc107; /* 背景色を黄色系に設定 */
+    color: #333; /* テキストの色を濃いグレーに設定 */
+}
+
+/* 「編集」ボタンのホバースタイル */
+.edit-button:hover {
+    background-color: #e0a800; /* ホバー時の背景色を濃い黄色に変更 */
+}
+
+/* 「削除」ボタンのスタイル */
+.delete-button {
+    background-color: #dc3545; /* 背景色を赤系に設定 */
+    color: white; /* テキストの色を白に設定 */
+}
+
+/* 「削除」ボタンのホバースタイル */
+.delete-button:hover {
+    background-color: #c82333; /* ホバー時の背景色を濃い赤に変更 */
+}
+
+/* データテーブルの基本スタイル */
+.data-table {
+    width: 100%; /* 幅を親要素に合わせる */
+    border-collapse: collapse; /* セルの境界線を結合 */
+    margin-top: 15px; /* 上部に余白を設定 */
+}
+
+/* テーブルヘッダーとデータセルのスタイル */
+.data-table th,
+.data-table td {
+    border: 1px solid #ddd; /* 枠線を追加 */
+    padding: 10px; /* 内部余白を設定 */
+    text-align: left; /* テキストを左揃え */
+    white-space: nowrap; /* テキストの折り返しを防ぐ */
+}
+
+/* テーブルヘッダーのスタイル */
+.data-table th {
+    background-color: #e2e6ea; /* 背景色を設定 */
+    font-weight: bold; /* テキストを太字にする */
+    color: #495057; /* テキストの色を設定 */
+}
+
+/* テーブル本体の奇数行の背景色を設定 */
+.data-table tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+/* テーブル本体の行のマウスオーバー時のスタイル */
+.data-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 検索結果件数メッセージのスタイル */
+.result-count-message {
+    text-align: left; /* テキストを左揃えにする */
+    font-size: 0.9em; /* フォントサイズを少し小さくする */
+    color: #666; /* テキストの色をグレーに設定 */
+    margin-bottom: 10px; /* 下部に余白を設定 */
+}
+
+/* エラーメッセージのスタイル */
+.error-message {
+    color: #dc3545; /* テキストの色を赤に設定 */
+    background-color: #f8d7da; /* 背景色を薄い赤に設定 */
+    border: 1px solid #f5c6cb; /* 枠線を追加 */
+    padding: 10px; /* 内部余白を設定 */
+    border-radius: 5px; /* 角を丸くする */
+    margin-bottom: 15px; /* 下部に余白を設定 */
+    text-align: center; /* 中央揃え */
+}

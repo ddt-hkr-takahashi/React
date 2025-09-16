@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>所有者情報管理</title>
+<link rel="stylesheet" th:href="@{/ownerInformationMenu.css}">
+<link rel="stylesheet" th:href="@{/appHeader.css}">
+<script th:src="@{/appHeader.js}"></script>
+<script th:src="@{/common.js}" type="module"></script>
+<script th:src="@{/ownerInformationMenu.js}" type="module"></script>
+</head>
+<body>
+	<div id="header-placeholder"></div>
+
+	<main class="container">
+		<h2>元所有者管理</h2>
+
+		<section class="search-section">
+			<form id="searchForm" class="search-form-flex" method="post">
+				<div class="input-group">
+					<label for="owner_name">名前</label> <input type="text"
+						id="owner_name" name="owner_name" th:value="${param.owner_name}"
+						placeholder="部分一致可">
+				</div>
+				<div class="input-group">
+					<label for="sex">性別</label> <select id="sex" name="sex">
+						<option value=""
+							th:selected="${param.sex == null or param.sex[0] == ''}">選択なし</option>
+						<option value="男"
+							th:selected="${param.sex != null and param.sex[0] == '男'}">男</option>
+						<option value="女"
+							th:selected="${param.sex != null and param.sex[0] == '女'}">女</option>
+					</select>
+				</div>
+				<div class="input-group">
+					<label for="age_from">年齢</label> <input type="number" id="age_from"
+						name="age_from" th:value="${param.age_from}" min="0"
+						placeholder="下限(未設定可)"> <span>~</span> <input
+						type="number" id="age_to" name="age_to" th:value="${param.age_to}"
+						min="0" placeholder="上限(未設定可)">
+				</div>
+				<button type="button" id="searchButton" class="button search-button">検索</button>
+			</form>
+		</section>
+
+		<section class="list-section">
+			<h3>元所有者一覧</h3>
+			<div class="list-actions">
+				<button type="button" class="button action-button add-button">追加</button>
+				<button type="button" class="button action-button edit-button"
+					data-min-message="編集する項目を選択してください。"
+					data-max-message="編集できる項目は1つだけです。複数選択されています。">編集</button>
+				<button type="button" class="button action-button delete-button"
+					data-min-message="削除する項目を選択してください。"
+					data-confirm-message="選択された項目を本当に削除しますか？">削除</button>
+			</div>
+
+			<form id="deleteFormOwner" method="post" style="display: inline;">
+				<div id="results-area" th:fragment="results-fragment">
+					<p th:if="${resultCountMessage}" class="result-count-message"
+						th:text="${resultCountMessage}"></p>
+					<p th:if="${errorMessage}" class="error-message"
+						th:text="${errorMessage}"></p>
+					<table class="data-table"
+						th:if="${resultList != null and !resultList.empty}">
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="selectAllOwners"></th>
+								<th>名前</th>
+								<th>性別</th>
+								<th>年齢</th>
+								<th>売却台数</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="owner : ${resultList}">
+								<td><input type="checkbox" name="owner_codes"
+									th:value="${owner['ownerCode']}"></td>
+								<td th:text="${owner['ownerName']}"></td>
+								<td th:text="${owner['sex']}"></td>
+								<td th:text="${owner['age']}"></td>
+								<td th:text="${owner['salesCount']}"></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="pagination" th:if="${totalPages > 1}">
+						<span th:if="${currentPage > 1}"><a
+							th:href="@{/owner-information-menu(page=${currentPage - 1}, owner_name=${param.owner_name}, sex=${param.sex}, age_from=${param.age_from}, age_to=${param.age_to})}"
+							th:data-page="${currentPage - 1}">&laquo; 前へ</a></span> <span
+							th:each="i : ${#numbers.sequence(1, totalPages)}"><a
+							th:href="@{/owner-information-menu(page=${i}, owner_name=${param.owner_name}, sex=${param.sex}, age_from=${param.age_from}, age_to=${param.age_to})}"
+							th:data-page="${i}"
+							th:classappend="${i == currentPage} ? 'active' : ''"
+							th:text="${i}"></a></span> <span th:if="${currentPage < totalPages}"><a
+							th:href="@{/owner-information-menu(page=${currentPage + 1}, owner_name=${param.owner_name}, sex=${param.sex}, age_from=${param.age_from}, age_to=${param.age_to})}"
+							th:data-page="${currentPage + 1}">次へ &raquo;</a></span>
+					</div>
+				</div>
+			</form>
+		</section>
+	</main>
+</body>
+</html>

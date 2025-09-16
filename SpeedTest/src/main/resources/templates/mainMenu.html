@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中古車販売管理システム メニュー</title>
+<link rel="stylesheet" href="mainMenu.css">
+</head>
+<body>
+	<div class="container">
+		<h1>中古車販売管理システム</h1>
+
+		<ul>
+			<li><a id="salesInfoLink" href="#">販売情報管理</a></li>
+			<li><a id="salesHistoryLink" href="#">販売履歴管理</a></li>
+			<li><a id="ownerInfoLink" href="#">元所有者管理</a></li>
+			<li><a id="branchInfoLink" href="#">店舗情報管理</a></li>
+		</ul>
+	</div>
+	<script type="module">
+        import { ROUTES } from './constants.js';
+
+        document.getElementById('salesInfoLink').addEventListener('click', () => {
+            window.location.href = ROUTES.SALES_INFO_MENU;
+        });
+        document.getElementById('salesHistoryLink').addEventListener('click', () => {
+            window.location.href = ROUTES.SALES_HISTORY_INFO_MENU;
+        });
+        document.getElementById('ownerInfoLink').addEventListener('click', () => {
+            window.location.href = ROUTES.OWNER_INFO_MENU;
+        });
+        document.getElementById('branchInfoLink').addEventListener('click', () => {
+            window.location.href = ROUTES.BRANCH_INFO_MENU;
+        });
+    </script>
+</body>
+</html>

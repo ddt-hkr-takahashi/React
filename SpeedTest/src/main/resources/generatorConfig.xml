@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<context id="context1">
+		<!-- JDBC接続設定 -->
+		<jdbcConnection
+			connectionURL="jdbc:mariadb://localhost:3306/used_cars_sales_system"
+			driverClass="org.mariadb.jdbc.Driver" userId="workusr"
+			password="workpass" />
+
+		<!-- Javaモデル設定 -->
+		<javaModelGenerator
+			targetPackage="com.example.model"
+			targetProject="Used_cars_Seles_System2/src/main/java" />
+
+		<!-- XML設定 -->
+		<sqlMapGenerator targetPackage="com.example.mapper"
+			targetProject="Used_cars_Seles_System2/src/main/resources" />
+
+		<!-- Mapperインターフェース設定 -->
+		<javaClientGenerator
+			targetPackage="com.example.mapper"
+			targetProject="Used_cars_Seles_System2/src/main/java"
+			type="XMLMAPPER" />
+
+		<!-- 生成対象テーブルの設定 -->
+		<!-- 適宜変更して利用する -->
+		<table tableName="used_cars"></table>
+		<table tableName="owners_list"></table>
+		<table tableName="branches_list"></table>
+		<table tableName="prefs_list"></table>
+		<table tableName="stores_list"></table>
+		<table tableName="models_list"></table>
+		<table tableName="types_list"></table>
+		<table tableName="makers_list"></table>
+	</context>
+</generatorConfiguration>

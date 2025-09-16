@@ -1,0 +1,97 @@
+/* salesInformationMenu.css */
+
+/* .edit-form-section は、販売情報追加/編集画面のフォームを囲むセクションのスタイルを定義します。*/
+.edit-form-section {
+    max-width: 600px; /* セクションの最大幅を600pxに設定 */
+    margin: 30px auto; /* 上下に30px、左右を自動で設定し、中央に配置 */
+    padding: 30px; /* セクションの内側に30pxの余白を設定 */
+    background-color: #ffffff; /* 背景色を白に設定 */
+    border-radius: 8px; /* 角を丸くする */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 影を追加して立体感を出す */
+}
+
+/* フォームセクション内の見出し（h2）のスタイル */
+.edit-form-section h2 {
+    text-align: center; /* テキストを中央揃えにする */
+    color: #2c3e50; /* 見出しの色を設定 */
+    margin-bottom: 30px; /* 下部に30pxの余白を設定 */
+    font-size: 2em; /* フォントサイズを相対的に大きくする */
+    border-bottom: 2px solid #eee; /* 下に2pxの細い線を追加 */
+    padding-bottom: 10px; /* 下線とテキストの間に10pxの余白を設定 */
+}
+
+/* フォームの各入力グループのスタイル */
+.form-group {
+    margin-bottom: 20px; /* グループの下に20pxの余白を設定 */
+}
+
+/* フォームグループ内のラベルのスタイル */
+.form-group label {
+    display: block; /* ブロック要素にして、次の要素を改行させる */
+    margin-bottom: 8px; /* ラベルの下に8pxの余白を設定 */
+    font-weight: bold; /* テキストを太字にする */
+    color: #555; /* テキストの色を設定 */
+}
+
+/* フォームグループ内のテキスト入力、数値入力、セレクトボックスのスタイルをまとめて設定 */
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+    width: 100%; /* 親要素の幅いっぱいに広げる */
+    padding: 10px; /* 内側に10pxの余白を設定 */
+    border: 1px solid #ddd; /* 1pxの細い実線で枠線を追加 */
+    border-radius: 4px; /* 角を丸くする */
+    box-sizing: border-box; /* パディングとボーダーを幅の計算に含める */
+    font-size: 1em; /* フォントサイズを設定 */
+}
+
+/* フォーム内のアクションボタンを配置するコンテナのスタイル */
+.form-actions {
+    display: flex; /* Flexboxを有効にする */
+    justify-content: flex-end; /* 子要素を右端に寄せる */
+    gap: 10px; /* 子要素間のスペースを10pxに設定 */
+    margin-top: 30px; /* 上部に30pxの余白を設定 */
+}
+
+/* 更新ボタンのスタイル */
+.button.update-button {
+    background-color: #007bff; /* 背景色を明るい青に設定 */
+    color: white; /* テキスト色を白に設定 */
+    border: none; /* 枠線を削除 */
+    border-radius: 5px; /* 角を丸くする */
+    padding: 12px 25px; /* 内側に余白を設定 */
+    cursor: pointer; /* マウスオーバー時にポインターを表示 */
+    font-size: 1em; /* フォントサイズを設定 */
+    transition: background-color 0.3s ease; /* ホバー時の背景色変化を滑らかにする */
+}
+
+/* 更新ボタンのマウスオーバー時のスタイル */
+.button.update-button:hover {
+    background-color: #0056b3; /* 背景色を少し暗い青に変更 */
+}
+
+/* キャンセルボタンのスタイル */
+.button.cancel-button {
+    background-color: #6c757d; /* 背景色をグレーに設定 */
+    color: white; /* テキスト色を白に設定 */
+    border: none; /* 枠線を削除 */
+    border-radius: 5px; /* 角を丸くする */
+    padding: 12px 25px; /* 内側に余白を設定 */
+    cursor: pointer; /* マウスオーバー時にポインターを表示 */
+    font-size: 1em; /* フォントサイズを設定 */
+    transition: background-color 0.3s ease; /* ホバー時の背景色変化を滑らかにする */
+}
+
+/* キャンセルボタンのマウスオーバー時のスタイル */
+.button.cancel-button:hover {
+    background-color: #5a6268; /* 背景色を少し暗いグレーに変更 */
+}
+
+/* レスポンシブ対応のためのメディアクエリ */
+@media (max-width: 768px) {
+    /* 画面幅が768px以下の場合のセクションのスタイル調整 */
+    .edit-form-section {
+        margin: 10px; /* 外部余白を10pxに減らす */
+        padding: 20px; /* 内部余白を20pxに減らす */
+    }
+}

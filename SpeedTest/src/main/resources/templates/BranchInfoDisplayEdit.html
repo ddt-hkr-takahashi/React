@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>支店情報編集</title>
+<link rel="stylesheet" th:href="@{/Editer.css}">
+<link rel="stylesheet" th:href="@{/appHeader.css}">
+<script th:src="@{/appHeader.js}" type="module"></script>
+<script th:src="@{/common.js}" type="module"></script>
+<script type="module" th:src="@{/branchInformationMenu.js}"></script>
+</head>
+<body>
+	<div id="header-placeholder"></div>
+
+	<main class="container">
+		<section class="edit-form-section">
+			<h2>支店情報編集</h2>
+			<form id="editForm" method="post">
+				<input type="hidden" name="branchCode"
+					th:value="${branchToEdit?.branchCode}">
+
+				<div class="form-group">
+					<label for="prefCode">都道府県</label> <select name="prefCode"
+						id="prefCode">
+						<option value="01" th:selected="${branchToEdit?.prefCode == '01'}">北海道</option>
+						<option value="02" th:selected="${branchToEdit?.prefCode == '02'}">青森県</option>
+						<option value="03" th:selected="${branchToEdit?.prefCode == '03'}">岩手県</option>
+						<option value="04" th:selected="${branchToEdit?.prefCode == '04'}">宮城県</option>
+						<option value="05" th:selected="${branchToEdit?.prefCode == '05'}">秋田県</option>
+						<option value="06" th:selected="${branchToEdit?.prefCode == '06'}">山形県</option>
+						<option value="07" th:selected="${branchToEdit?.prefCode == '07'}">福島県</option>
+						<option value="08" th:selected="${branchToEdit?.prefCode == '08'}">茨城県</option>
+						<option value="09" th:selected="${branchToEdit?.prefCode == '09'}">栃木県</option>
+						<option value="10" th:selected="${branchToEdit?.prefCode == '10'}">群馬県</option>
+						<option value="11" th:selected="${branchToEdit?.prefCode == '11'}">埼玉県</option>
+						<option value="12" th:selected="${branchToEdit?.prefCode == '12'}">千葉県</option>
+						<option value="13" th:selected="${branchToEdit?.prefCode == '13'}">東京都</option>
+						<option value="14" th:selected="${branchToEdit?.prefCode == '14'}">神奈川県</option>
+						<option value="15" th:selected="${branchToEdit?.prefCode == '15'}">新潟県</option>
+						<option value="16" th:selected="${branchToEdit?.prefCode == '16'}">富山県</option>
+						<option value="17" th:selected="${branchToEdit?.prefCode == '17'}">石川県</option>
+						<option value="18" th:selected="${branchToEdit?.prefCode == '18'}">福井県</option>
+						<option value="19" th:selected="${branchToEdit?.prefCode == '19'}">山梨県</option>
+						<option value="20" th:selected="${branchToEdit?.prefCode == '20'}">長野県</option>
+						<option value="21" th:selected="${branchToEdit?.prefCode == '21'}">岐阜県</option>
+						<option value="22" th:selected="${branchToEdit?.prefCode == '22'}">静岡県</option>
+						<option value="23" th:selected="${branchToEdit?.prefCode == '23'}">愛知県</option>
+						<option value="24" th:selected="${branchToEdit?.prefCode == '24'}">三重県</option>
+						<option value="25" th:selected="${branchToEdit?.prefCode == '25'}">滋賀県</option>
+						<option value="26" th:selected="${branchToEdit?.prefCode == '26'}">京都府</option>
+						<option value="27" th:selected="${branchToEdit?.prefCode == '27'}">大阪府</option>
+						<option value="28" th:selected="${branchToEdit?.prefCode == '28'}">兵庫県</option>
+						<option value="29" th:selected="${branchToEdit?.prefCode == '29'}">奈良県</option>
+						<option value="30" th:selected="${branchToEdit?.prefCode == '30'}">和歌山県</option>
+						<option value="31" th:selected="${branchToEdit?.prefCode == '31'}">鳥取県</option>
+						<option value="32" th:selected="${branchToEdit?.prefCode == '32'}">島根県</option>
+						<option value="33" th:selected="${branchToEdit?.prefCode == '33'}">岡山県</option>
+						<option value="34" th:selected="${branchToEdit?.prefCode == '34'}">広島県</option>
+						<option value="35" th:selected="${branchToEdit?.prefCode == '35'}">山口県</option>
+						<option value="36" th:selected="${branchToEdit?.prefCode == '36'}">徳島県</option>
+						<option value="37" th:selected="${branchToEdit?.prefCode == '37'}">香川県</option>
+						<option value="38" th:selected="${branchToEdit?.prefCode == '38'}">愛媛県</option>
+						<option value="39" th:selected="${branchToEdit?.prefCode == '39'}">高知県</option>
+						<option value="40" th:selected="${branchToEdit?.prefCode == '40'}">福岡県</option>
+						<option value="41" th:selected="${branchToEdit?.prefCode == '41'}">佐賀県</option>
+						<option value="42" th:selected="${branchToEdit?.prefCode == '42'}">長崎県</option>
+						<option value="43" th:selected="${branchToEdit?.prefCode == '43'}">熊本県</option>
+						<option value="44" th:selected="${branchToEdit?.prefCode == '44'}">大分県</option>
+						<option value="45" th:selected="${branchToEdit?.prefCode == '45'}">宮崎県</option>
+						<option value="46" th:selected="${branchToEdit?.prefCode == '46'}">鹿児島県</option>
+						<option value="47" th:selected="${branchToEdit?.prefCode == '47'}">沖縄県</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="storeCode">店舗</label> <select id="storeCode"
+						name="storeCode">
+						<option value="01"
+							th:selected="${branchToEdit?.storeCode == '01'}">A中古車店</option>
+						<option value="02"
+							th:selected="${branchToEdit?.storeCode == '02'}">車のB店</option>
+						<option value="03"
+							th:selected="${branchToEdit?.storeCode == '03'}">中古社販売C</option>
+						<option value="04"
+							th:selected="${branchToEdit?.storeCode == '04'}">CarStoreD</option>
+						<option value="05"
+							th:selected="${branchToEdit?.storeCode == '05'}">E車販売</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="branchName">支店名:</label> <input type="text"
+						id="branchName" name="branchName"
+						th:value="${branchToEdit?.branchName}" required>
+				</div>
+
+				<div class="form-actions">
+					<button type="button" class="button update-button"
+						id="updateButton">更新</button>
+					<button type="button" class="button cancel-button"
+						id="cancelButton">キャンセル</button>
+				</div>
+			</form>
+		</section>
+	</main>
+</body>
+</html>

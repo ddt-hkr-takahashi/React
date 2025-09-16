@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.example.mapper.selfCreateMapper.SpeedUsedCarMapper">
+	<select id="getAnalyzedSalesData"
+		resultType="com.example.Entity.SpeedUsedCarDto">
+		SELECT
+		p.pref_Name AS prefName,
+		s.store_name AS storeName,
+		b.branch_name AS branchName,
+		DATE_FORMAT(u.parchase_date, '%Y/%m/%d')
+		AS PD,
+		u.sales_amount AS salesAmount,
+		m.list_price AS listPrice,
+		mk.maker_name AS makerName,
+		t.type_name AS typeName,
+		m.model_name AS
+		modelName,
+		CASE
+		WHEN u.sales_amount &gt;= m.list_price THEN 1
+		WHEN
+		b.store_code = '01' AND u.sales_amount &lt; m.list_price AND
+		u.sales_amount &gt;= m.list_price * 0.8 THEN 0
+		WHEN b.store_code !=
+		'01' AND u.sales_amount &lt; m.list_price AND
+		u.sales_amount &gt;=
+		m.list_price * 0.7 THEN 0
+		ELSE -1
+		END AS saleStatus
+		FROM
+		used_cars u
+		JOIN
+		models_list m ON u.model_code = m.model_code
+		JOIN
+		branches_list b ON
+		u.branch_code = b.branch_code
+		JOIN
+		stores_list s ON b.store_code =
+		s.store_code
+		JOIN
+		makers_list mk ON m.maker_code = mk.maker_code
+		JOIN
+		types_list t ON m.type_code = t.type_code
+		JOIN
+		prefs_list p ON
+		b.pref_code = p.pref_code
+	</select>
+</mapper>

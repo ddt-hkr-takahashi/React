@@ -1,0 +1,249 @@
+/* branchInformationMenu.css */
+
+/* 全体的なページの基本スタイル設定 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+/* メインコンテンツを囲むコンテナのスタイル */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* メインタイトル(h2)のスタイル */
+h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2em;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* サブタイトル(h3)のスタイル */
+h3 {
+    color: #34495e;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+/* 検索部のセクションスタイル */
+.search-section {
+    padding: 20px;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    background-color: #f9fbfb;
+}
+
+/* 検索フォームのFlexboxコンテナ */
+.search-form-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+/* 各入力グループ（ラベルと入力欄）のスタイル */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+}
+
+/* 入力グループ内のラベルのスタイル */
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+    white-space: nowrap;
+}
+
+/* セレクトボックスのスタイルをまとめて設定 */
+.form-group select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box;
+    min-width: 180px; /* ある程度の幅を確保 */
+    width: auto;
+}
+
+/* セレクトボックスのカスタムスタイル */
+.form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2C114.7L154.7%2C247.1c-1.3%2C1.3-3%2C2-4.7%2C2s-3.4-0.7-4.7-2L5.4%2C114.7c-2.6-2.6-2.6-6.9%2C0-9.5s6.9-2.6%2C9.5%2C0L146%2C230.1L277.5%2C105.2c2.6-2.6%2C6.9-2.6%2C9.5%2C0S289.6%2C112.1%2C287%2C114.7z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    padding-right: 30px;
+}
+
+/* 検索ボタンのスタイル */
+.search-form-flex .search-button {
+    margin-left: auto;
+    padding: 10px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+/* 検索ボタンのホバースタイル */
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+/* 一覧部のセクションスタイル */
+.list-section {
+    padding: 20px;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    background-color: #f9fbfb;
+    margin-bottom: 30px;
+}
+
+/* 一覧部のボタンコンテナのスタイル */
+.list-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+/* .buttonと.action-button両方を持つものに適用する共通スタイル */
+.button.action-button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+/* 「追加」ボタンのスタイル */
+.add-button {
+    background-color: #28a745;
+    color: white;
+}
+
+/* 「追加」ボタンのホバースタイル */
+.add-button:hover {
+    background-color: #218838;
+}
+
+/* 「編集」ボタンのスタイル */
+.edit-button {
+    background-color: #ffc107;
+    color: #333;
+}
+
+/* 「編集」ボタンのホバースタイル */
+.edit-button:hover {
+    background-color: #e0a800;
+}
+
+/* 「削除」ボタンのスタイル */
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* 「削除」ボタンのホバースタイル */
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* データテーブルの基本スタイル */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+/* テーブルヘッダーとデータセルのスタイル */
+.data-table th,
+.data-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* テーブルヘッダーのスタイル */
+.data-table th {
+    background-color: #e2e6ea;
+    font-weight: bold;
+    color: #495057;
+}
+
+/* テーブル本体の奇数行の背景色を設定 */
+.data-table tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+/* テーブル本体の行のマウスオーバー時のスタイル */
+.data-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 検索結果件数メッセージのスタイル */
+.result-count-message {
+    text-align: left;
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* エラーメッセージのスタイル */
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* ページネーションのスタイル */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    color: #007bff;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+    border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #f1f1f1;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+}

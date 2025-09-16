@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>販売情報追加</title>
+<link rel="stylesheet" th:href="@{/appHeader.css}">
+<link rel="stylesheet" th:href="@{/Editer.css}">
+<script th:src="@{/appHeader.js}"></script>
+<script th:src="@{/salesInformationMenu.js}" type="module"></script>
+<script th:src="@{/constants.js}" type="module"></script>
+</head>
+<body>
+	<div id="header-placeholder"></div>
+
+	<main class="container">
+		<section class="edit-form-section">
+			<h2>販売情報追加</h2>
+			<form id="addForm" method="post">
+
+				<div class="form-group">
+					<label for="branchCode">販売店支店名:</label> <select id="branchCode"
+						name="branchCode">
+						<option th:each="branch : ${branchList}"
+							th:value="${branch.branch_code}" th:text="${branch.branch_name}">
+						</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="modelCode">車種:</label> <select id="modelCode"
+						name="modelCode">
+						<option th:each="model : ${modelList}"
+							th:value="${model.model_code}" th:text="${model.combined_name}"></option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="ownerCode">元所有者:</label> <select id="ownerCode"
+						name="ownerCode">
+						<option th:each="owner : ${ownerList}"
+							th:value="${owner.owner_code}" th:text="${owner.owner_name}">
+							元所有者</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="salesAmount">販売額:</label> <input type="number"
+						id="salesAmount" name="salesAmount" value="" min=0 required>
+				</div>
+
+				<div class="form-actions">
+					<button type="button" class="button update-button" id="addButton">追加</button>
+					<button type="button" class="button cancel-button">キャンセル</button>
+				</div>
+			</form>
+		</section>
+	</main>
+</body>
+</html>

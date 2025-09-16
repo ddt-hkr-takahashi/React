@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>販売情報管理</title>
+<link rel="stylesheet" th:href="@{/salesInformationMenu.css}">
+<link rel="stylesheet" th:href="@{/appHeader.css}">
+<script th:src="@{/appHeader.js}"></script>
+<script th:src="@{/common.js}" type="module"></script>
+<script th:src="@{/salesInformationMenu.js}" type="module"></script>
+<script th:src="@{/constants.js}" type="module"></script>
+</head>
+<body>
+	<div id="header-placeholder"></div>
+
+	<main class="container">
+		<h2>販売情報管理</h2>
+
+		<section class="search-section" id="search-section">
+			<form id="searchForm" method="post" class="search-form-flex"
+				th:action="@{/sales-information-menu/search-result}">
+				<div>
+					<label for="prefCode">都道府県:</label> <select id="prefCode"
+						name="prefCode">
+						<option value="" th:selected="${#strings.isEmpty(param.prefCode)}">未選択</option>
+						<option th:each="pref : ${prefList}" th:value="${pref.pref_code}"
+							th:text="${pref.pref_name}"
+							th:selected="${#strings.equals(pref.pref_code, param.prefCode)}">都道府県名</option>
+					</select>
+				</div>
+
+				<div>
+					<label for="branchCode">支店名:</label> <select id="branchCode"
+						name="branchCode">
+						<option value=""
+							th:selected="${#strings.isEmpty(param.branchCode)}">未選択</option>
+						<option th:each="branch : ${branchList}"
+							th:value="${branch.branch_code}" th:text="${branch.branch_name}"
+							th:selected="${#strings.equals(branch.branch_code, param.branchCode)}">
+							支店名</option>
+					</select>
+				</div>
+
+				<div>
+					<label for="makerCode">メーカー:</label> <select id="makerCode"
+						name="makerCode">
+						<option value=""
+							th:selected="${#strings.isEmpty(param.makerCode)}">未選択</option>
+						<option th:each="maker : ${makerList}"
+							th:value="${maker.maker_code}" th:text="${maker.maker_name}"
+							th:selected="${#strings.equals(maker.maker_code, param.makerCode)}">
+							メーカー名</option>
+					</select>
+				</div>
+
+				<div>
+					<label for="typeCode">タイプ:</label> <select id="typeCode"
+						name="typeCode">
+						<option value="" th:selected="${#strings.isEmpty(param.typeCode)}">未選択</option>
+						<option th:each="type : ${typeList}" th:value="${type.type_code}"
+							th:text="${type.type_name}"
+							th:selected="${#strings.equals(type.type_code, param.typeCode)}">タイプ名</option>
+					</select>
+				</div>
+
+				<div>
+					<label for="modelName">車種:</label> <input type="text"
+						id="modelName" name="modelName" th:value="${param.modelName}"
+						placeholder="部分一致可">
+				</div>
+
+				<input type="hidden" name="page" id="pageInput"
+					th:value="${currentPage}"> <input type="hidden" name="size"
+					id="sizeInput" value="100">
+
+				<button type="submit" id="searchButton" class="button search-button">検索</button>
+			</form>
+		</section>
+
+		<section id="add-form-area" style="display: none;">
+			<h3>新規販売情報登録</h3>
+			<form id="addForm">
+				<div class="input-group">
+					<label for="newPrefCode">都道府県:</label> <select id="newPrefCode"
+						name="newPrefCode">
+						<option value="">未選択</option>
+						<option th:each="pref : ${prefList}" th:value="${pref.pref_code}"
+							th:text="${pref.pref_name}">都道府県名</option>
+					</select>
+				</div>
+				<div class="input-group">
+					<label for="newBranchCode">支店名:</label> <select id="newBranchCode"
+						name="newBranchCode">
+						<option value="">未選択</option>
+						<option th:each="branch : ${branchList}"
+							th:value="${branch.branch_code}" th:text="${branch.branch_name}">支店名</option>
+					</select>
+				</div>
+				<div class="input-group">
+					<label for="newMakerCode">メーカー:</label> <select id="newMakerCode"
+						name="newMakerCode">
+						<option value="">未選択</option>
+						<option th:each="maker : ${makerList}"
+							th:value="${maker.maker_code}" th:text="${maker.maker_name}">メーカー名</option>
+					</select>
+				</div>
+				<div class="input-group">
+					<label for="newTypeCode">タイプ:</label> <select id="newTypeCode"
+						name="newTypeCode">
+						<option value="">未選択</option>
+						<option th:each="type : ${typeList}" th:value="${type.type_code}"
+							th:text="${type.type_name}">タイプ名</option>
+					</select>
+				</div>
+				<div class="input-group">
+					<label for="newModelName">車種:</label> <input type="text"
+						id="newModelName" name="newModelName" placeholder="車種を入力">
+				</div>
+				<div class="input-group">
+					<label for="newSalesAmount">販売額:</label> <input type="number"
+						id="newSalesAmount" name="newSalesAmount">
+				</div>
+				<div class="button-group">
+					<button type="submit" class="button">登録</button>
+					<button type="button" class="button" id="cancelAddButton">キャンセル</button>
+				</div>
+			</form>
+		</section>
+
+		<section class="list-section" id="list-section">
+			<h3>販売中古車一覧</h3>
+			<div class="list-actions">
+				<button type="button" class="button action-button add-button">追加</button>
+				<button type="button" class="button action-button edit-button"
+					data-min-message="編集する項目を選択してください。"
+					data-max-message="編集できる項目は1つだけです。複数選択されています。">編集</button>
+				<button type="button" class="button action-button delete-button"
+					data-min-message="削除する項目を選択してください。"
+					data-confirm-message="選択された項目を本当に削除しますか？">削除</button>
+				<button type="button" class="button action-button sale-button"
+					data-min-message="購入する項目を選択してください。">購入</button>
+			</div>
+			<form id="deleteForm" method="post" style="display: inline;">
+				<div id="results-area" th:fragment="results-fragment">
+					<p th:if="${resultCountMessage}" class="result-count-message"
+						th:text="${resultCountMessage}"></p>
+
+					<p th:if="${errorMessage}" class="error-message"
+						th:text="${errorMessage}"></p>
+					<table class="data-table"
+						th:if="${resultList != null and !resultList.empty}">
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="selectAll"></th>
+								<th>都道府県</th>
+								<th>販売店</th>
+								<th>メーカー</th>
+								<th>タイプ</th>
+								<th>車種</th>
+								<th>販売額</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="car : ${resultList}">
+								<td><input type="checkbox" name="car_id"
+									th:value="${car.carId}"></td>
+								<td th:text="${car.prefName}"></td>
+								<td th:text="${car.branchName}"></td>
+								<td th:text="${car.makerName}"></td>
+								<td th:text="${car.typeName}"></td>
+								<td th:text="${car.modelName}"></td>
+								<td
+									th:text="${#numbers.formatInteger(car.salesAmount, 0, 'COMMA')}"></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="pagination" th:if="${totalPages > 1}">
+						<a th:if="${currentPage > 1}"
+							th:href="@{/sales-information-menu(page=${currentPage - 1}, prefCode=${param.prefCode}, branchCode=${param.branchCode}, makerCode=${param.makerCode}, typeCode=${param.typeCode}, modelName=${param.modelName})}">&laquo;
+							前へ</a> <span
+							th:with="startPage=${T(java.lang.Math).max(1, currentPage - 5)}, endPage=${T(java.lang.Math).min(totalPages, currentPage + 5)}">
+							<a th:each="i : ${#numbers.sequence(startPage, endPage)}"
+							th:href="@{/sales-information-menu(page=${i}, prefCode=${param.prefCode}, branchCode=${param.branchCode}, makerCode=${param.makerCode}, typeCode=${param.typeCode}, modelName=${param.modelName})}"
+							th:classappend="${i == currentPage} ? 'active'" th:text="${i}"></a>
+						</span> <a th:if="${currentPage < totalPages}"
+							th:href="@{/sales-information-menu(page=${currentPage + 1}, prefCode=${param.prefCode}, branchCode=${param.branchCode}, makerCode=${param.makerCode}, typeCode=${param.typeCode}, modelName=${param.modelName})}">次へ
+							&raquo;</a>
+					</div>
+				</div>
+			</form>
+		</section>
+	</main>
+</body>
+</html>

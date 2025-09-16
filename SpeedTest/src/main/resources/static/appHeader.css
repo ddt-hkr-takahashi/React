@@ -1,0 +1,74 @@
+/* appHeader.css */
+
+/* ヘッダー全体のスタイル */
+.app-header {
+    background-color: #ffffff; /* ヘッダーの背景色 */
+    padding: 10px 0; /* 上下のパディング */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* ヘッダーに影をつける */
+    color: #333; /* テキストの色 (背景色に合わせる) */
+    text-align: center; /* テキストを中央揃え */
+}
+
+/* ナビゲーションリストのスタイル */
+.main-nav ul {
+    list-style: none; /* リストの点マークを非表示 */
+    margin: 0;
+    padding: 0;
+    display: flex; /* ナビゲーション項目を横並びに */
+    gap: 15px; /* 項目間のスペース */
+    justify-content: center; /* 中央寄せ */
+    flex-wrap: wrap; /* 画面が狭い場合に折り返す */
+}
+
+.main-nav li {
+    /* 特に指定なし */
+}
+
+/* ナビゲーションリンク (ボタンのように見せる) のスタイル */
+.main-nav a {
+    display: block; /* パディングと幅を適用するためにブロック要素にする */
+    padding: 10px 20px; /* パディングでボタンのサイズを調整 */
+    text-decoration: none; /* 下線を非表示 */
+    color: #333; /* デフォルトの文字色 (背景色に合わせる) */
+    background-color: #f0f8ff; /* デフォルトの背景色 */
+    border: 1px solid #ccc; /* 枠線を追加 */
+    border-radius: 5px; /* 角を丸くする */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15); /* 軽い影で立体感を出す */
+    /* ★transform も含めたすべてのプロパティの変更を滑らかにする */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    font-weight: normal; /* 太字にしない */
+    text-align: center; /* テキストを中央揃え */
+    min-width: 120px; /* ボタンの最小幅を設定 */
+}
+
+/* ナビゲーションリンクのホバーエフェクト */
+.main-nav a:hover {
+    background-color: #e0e0e0; /* ホバー時の背景色を少し暗く */
+    color: #000;              /* ホバー時の文字色を濃く */
+    transform: translateY(-2px); /* ★ここに移動アニメーションの指示 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.25); /* 影を強調 */
+    border-color: #999; /* ホバー時の枠線の色を濃く */
+}
+
+/* active クラスが適用されているリンクのスタイル (現在のページを示す) */
+.main-nav a.active {
+    background-color: #007bff; /* アクティブなリンクの背景色 (青) */
+    color: #fff;              /* アクティブなリンクの文字色 (白) */
+    border-color: #007bff;     /* アクティブなリンクのボーダー色 */
+    font-weight: bold;         /* 太字にする */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3); /* アクティブ時も影を適用 */
+    transform: none; /* アクティブな場合は移動させない */
+}
+
+/* レスポンシブ対応 (小画面での調整) */
+@media (max-width: 768px) {
+    .main-nav ul {
+        flex-direction: column; /* 項目を縦並びにする */
+        gap: 10px; /* 縦並びの項目間のスペース */
+        align-items: center; /* 中央寄せ */
+    }
+    .main-nav a {
+        width: 80%; /* 幅を広げる */
+        max-width: 250px; /* 最大幅を設定 */
+    }
+}

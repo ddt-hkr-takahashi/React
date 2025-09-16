@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.example.mapper.selfCreateMapper.SalesInfoMapper">
+
+	<select id="countUsedCars" resultType="int">
+		SELECT COUNT(*)
+		FROM used_cars uc
+		INNER JOIN branches_list bl ON
+		uc.branch_code = bl.branch_code
+		INNER JOIN prefs_list pl ON
+		bl.pref_code = pl.pref_code
+		INNER JOIN models_list mol ON
+		mol.model_code = uc.model_code
+		INNER JOIN makers_list ml ON
+		ml.maker_code = mol.maker_code
+		INNER JOIN types_list tl ON tl.type_code
+		= mol.type_code
+		WHERE uc.parchase_date IS NULL
+		<if test="prefCode != null and prefCode != ''">
+			AND pl.pref_code = #{prefCode}
+		</if>
+		<if test="branchCode != null and branchCode != ''">
+			AND bl.branch_code = #{branchCode}
+		</if>
+		<if test="makerCode != null and makerCode != ''">
+			AND ml.maker_code = #{makerCode}
+		</if>
+		<if test="typeCode != null and typeCode != ''">
+			AND tl.type_code = #{typeCode}
+		</if>
+		<if test="modelName != null and modelName != ''">
+			AND mol.model_name LIKE CONCAT('%', #{modelName}, '%')
+		</if>
+	</select>
+
+	<select id="searchUsedCars"
+		resultType="com.example.Entity.SalesInfoEntity">
+		SELECT
+		uc.car_id AS carId,
+		pl.pref_name AS prefName,
+		bl.branch_name AS
+		branchName,
+		ml.maker_name AS makerName,
+		tl.type_name AS typeName,
+		mol.model_name AS modelName,
+		uc.sales_amount AS salesAmount
+		FROM
+		used_cars uc
+		INNER JOIN branches_list bl ON uc.branch_code =
+		bl.branch_code
+		INNER JOIN prefs_list pl ON bl.pref_code = pl.pref_code
+		INNER JOIN models_list mol ON mol.model_code = uc.model_code
+		INNER JOIN
+		makers_list ml ON ml.maker_code = mol.maker_code
+		INNER JOIN types_list
+		tl ON tl.type_code = mol.type_code
+		WHERE uc.parchase_date IS NULL
+		<if test="prefCode != null and prefCode != ''">
+			AND pl.pref_code = #{prefCode}
+		</if>
+		<if test="branchCode != null and branchCode != ''">
+			AND bl.branch_code = #{branchCode}
+		</if>
+		<if test="makerCode != null and makerCode != ''">
+			AND ml.maker_code = #{makerCode}
+		</if>
+		<if test="typeCode != null and typeCode != ''">
+			AND tl.type_code = #{typeCode}
+		</if>
+		<if test="modelName != null and modelName != ''">
+			AND mol.model_name LIKE CONCAT('%', #{modelName}, '%')
+		</if>
+		ORDER BY uc.car_id ASC
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+
+	<select id="findById"
+		resultType="com.example.Entity.SalesInfoEntity">
+		SELECT
+		uc.car_id AS carId,
+		pl.pref_name AS prefName,
+		bl.branch_name AS branchName,
+		ml.maker_name AS makerName,
+		tl.type_name
+		AS typeName,
+		mol.model_name AS modelName,
+		uc.sales_amount AS salesAmount
+		FROM
+		used_cars uc
+		INNER JOIN branches_list bl ON uc.branch_code =
+		bl.branch_code
+		INNER JOIN prefs_list pl ON bl.pref_code = pl.pref_code
+		INNER JOIN models_list mol ON mol.model_code = uc.model_code
+		INNER JOIN
+		makers_list ml ON ml.maker_code = mol.maker_code
+		INNER JOIN types_list
+		tl ON tl.type_code = mol.type_code
+		WHERE
+		uc.car_id = #{carId}
+	</select>
+</mapper>
